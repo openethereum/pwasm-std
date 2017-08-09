@@ -1,12 +1,9 @@
 #![no_std]
 #![feature(lang_items)]
 #![feature(link_args)]
-#![feature(alloc_system)]
 #![feature(alloc)]
-#![feature(allocator_internals)]
-#![default_lib_allocator]
 
-extern crate alloc_system;
+extern crate wasm_alloc;
 extern crate alloc;
 
 use core::{slice, ptr, mem};
