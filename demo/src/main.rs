@@ -1,9 +1,6 @@
 #![no_std]
 #![no_main]
 #![feature(lang_items)]
-#![feature(alloc)]
-#![feature(allocator_internals)]
-#![feature(alloc_system)]
 
 extern crate wasm_std;
 
