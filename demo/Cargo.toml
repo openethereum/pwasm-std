@@ -7,9 +7,6 @@ target-dir = "wasm"
 [dependencies]
 wasm-std = { path = "../" }
 
-[build-dependencies]
-wasm-build = { path = "../../wasm-utils/build" }
-
 [[bin]]
 name = "wasm-demo"
 path = "src/main.rs"
