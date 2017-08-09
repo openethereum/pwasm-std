@@ -9,7 +9,6 @@ extern crate wasm_alloc;
 extern crate alloc;
 #[macro_reexport(vec)] extern crate collections;
 
-
 use core::{slice, ptr, mem};
 use core::ops::Shl;
 pub use alloc::boxed::Box;
