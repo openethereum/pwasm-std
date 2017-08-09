@@ -2,7 +2,6 @@
 name = "wasm-std-demo"
 version = "0.0.0"
 authors = ["NikVolf <nikvolf@gmail.com>"]
-build = "build.rs"
 target-dir = "wasm"
 
 [dependencies]
