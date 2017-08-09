@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+#[macro_use]
 extern crate wasm_std;
 
 use wasm_std::{Box, CallArgs, storage};
@@ -13,7 +14,10 @@ pub fn call(descriptor: *mut u8) {
     let mut v = [0u8; 32];
     storage::read(&k, &mut v);
 
-    *call_args.result_mut() = Box::new(v);
+    let mut vec = vec![0u8; 16384];
+    vec[32..64].copy_from_slice(&v);
+
+    *call_args.result_mut() = vec.into_boxed_slice();
 
     unsafe { call_args.save(descriptor); }
 }
