@@ -4,7 +4,7 @@
 #[macro_use]
 extern crate wasm_std;
 
-use wasm_std::{Box, CallArgs, storage};
+use wasm_std::{CallArgs, storage};
 
 #[no_mangle]
 pub fn call(descriptor: *mut u8) {
