@@ -3,12 +3,9 @@
 #![feature(lang_items)]
 #![feature(alloc_system)]
 
-extern "C" fn abort() {
-}
+extern crate wasm_std;
 
-#[lang = "panic_fmt"]
-pub fn panic_fmt(_fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) -> !
-{
-    abort();
-    unreachable!();
+#[no_mangle]
+pub fn call() {
+    unsafe { wasm_std::storage_read(); }
 }
