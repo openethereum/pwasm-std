@@ -9,6 +9,7 @@ extern crate alloc;
 use core::{slice, ptr, mem};
 use core::ops::Shl;
 pub use alloc::boxed::Box;
+pub use wasm_alloc::WamsAllocator;
 
 /// Wrapper over storage read/write externs
 /// Storage api is a key-value storage where both key and value are 32 bytes in len
@@ -28,10 +29,6 @@ pub fn panic_fmt(_fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) -
 {
     abort();
     unreachable!();
-}
-
-#[link_args = "-s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s USE_PTHREADS=0"]
-extern {
 }
 
 /// Safe wrapper for call context
