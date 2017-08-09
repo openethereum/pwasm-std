@@ -1,0 +1,18 @@
+[package]
+name = "wasm-std-demo"
+version = "0.0.0"
+authors = ["NikVolf <nikvolf@gmail.com>"]
+build = "build.rs"
+target-dir = "wasm"
+
+[dependencies]
+wasm-std = { path = "../" }
+
+[build-dependencies]
+wasm-build = { path = "../../wasm-utils/build" }
+
+[[bin]]
+name = "wasm-demo"
+
+[profile.release]
+panic = "abort"
