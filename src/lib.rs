@@ -9,7 +9,7 @@ extern crate wasm_alloc;
 extern crate alloc;
 #[macro_reexport(vec)] extern crate collections;
 
-pub extern crate bigint as math;
+pub extern crate bigint;
 
 use core::{slice, ptr, mem};
 use core::ops::Shl;
