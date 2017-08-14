@@ -8,5 +8,4 @@ wasm-alloc = { path = "alloc" }
 
 [dependencies.bigint]
 version = "4"
-branch = "no-std"
 default-features = false
