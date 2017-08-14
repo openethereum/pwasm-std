@@ -5,3 +5,7 @@ authors = ["NikVolf <nikvolf@gmail.com>"]
 
 [dependencies]
 wasm-alloc = { path = "alloc" }
+
+[dependencies.bigint]
+version = "4"
+default-features = false
