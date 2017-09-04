@@ -78,3 +78,21 @@ pub fn static_call(address: &[u8; 20], input: &[u8], result: &mut [u8]) -> Resul
         }
     }
 }
+
+pub fn block_hash(block_number: u64) -> Result<[u8; 32], Error> {
+}
+
+pub fn coinbase() -> [u8; 20] {
+}
+
+pub fn timestamp() -> u64 {
+}
+
+pub fn block_number() -> u64 {
+}
+
+pub fn difficulty() -> [u8; 32] {
+}
+
+pub fn gas_limit() -> [u8; 32] {
+}
