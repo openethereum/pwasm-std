@@ -2,7 +2,7 @@
 
 Parity WASM contracts standard library for Rust
 
-[![Build Status](https://travis-ci.org/NikVolf/wasm-std.svg?branch=master)](https://travis-ci.org/NikVolf/wasm-std)
+[![Build Status](https://travis-ci.org/NikVolf/pwasm-std.svg?branch=master)](https://travis-ci.org/NikVolf/pwasm-std)
 
 It is the limited subset of Rust standard library, along with custom allocator which delegates the allocation to the runtime-defined externs.
 
