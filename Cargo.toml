@@ -9,3 +9,7 @@ wasm-alloc = { path = "alloc" }
 [dependencies.bigint]
 version = "4"
 default-features = false
+
+[dependencies.byteorder]
+version = "1"
+default-features = false

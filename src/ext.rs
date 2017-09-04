@@ -2,14 +2,17 @@
 pub struct Error;
 
 mod external {
+
     #[link(name = "env")]
     extern {
         pub fn suicide(refund: *const u8);
     }
+
     #[link(name = "env")]
     extern {
         pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
     }
+
     #[link(name = "env")]
     extern {
 
