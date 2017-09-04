@@ -12,6 +12,11 @@ mod external {
     }
     #[link(name = "env")]
     extern {
+
+        // Various call variants
+
+        /// Direct/classic call.
+        /// Correspond to "CALL" opcode in EVM
         pub fn ccall(
             address: *const u8,
             val_ptr: *const u8,
@@ -20,6 +25,9 @@ mod external {
             result_ptr: *mut u8,
             result_len: u32,
         ) -> i32;
+
+        /// Delegate call.
+        /// Corresponds to "CALLCODE" opcode in EVM
         pub fn dcall(
             address: *const u8,
             input_ptr: *const u8,
@@ -27,6 +35,9 @@ mod external {
             result_ptr: *mut u8,
             result_len: u32,
         ) -> i32;
+
+        /// Static call.
+        /// Corresponds to "STACICCALL" opcode in EVM
         pub fn scall(
             address: *const u8,
             input_ptr: *const u8,
@@ -34,6 +45,8 @@ mod external {
             result_ptr: *mut u8,
             result_len: u32,
         ) -> i32;
+
+        // enviromental blockchain functions (runtume might not provide all of these!)
     }
 }
 
