@@ -11,7 +11,7 @@ extern {
 /// Can return `Error` if data is read from outside of the storage boundaries
 pub fn read(key: &[u8; 32], dst: &mut [u8; 32]) -> Result<(), Error> {
     match unsafe {
-        let mut dst = dst;
+        let dst = dst;
         storage_read(key.as_ptr(), dst.as_mut_ptr())
     } {
         x if x < 0 => Err(Error),
