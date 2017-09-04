@@ -5,7 +5,7 @@ authors = ["NikVolf <nikvolf@gmail.com>"]
 target-dir = "wasm"
 
 [dependencies]
-wasm-std = { path = "../" }
+pwasm-std = { path = "../" }
 
 [[bin]]
 name = "wasm-demo"
