@@ -11,7 +11,7 @@ It is the limited subset of Rust standard library, along with custom allocator w
 Just add a git dependency
 ```toml
 [dendencies] 
-wasm-std = { git = "https://github.com/NikVolf/pwasm-std" }
+pwasm-std = { git = "https://github.com/NikVolf/pwasm-std" }
 ```
 
 The crate is supposed to be used on nightly Rust only, until custom allocator api stablizes in Rust.
