@@ -2,19 +2,19 @@
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
-#![feature(collections)]
 #![feature(macro_reexport)]
 
 extern crate wasm_alloc;
-extern crate alloc;
-#[macro_reexport(vec)] extern crate collections;
+#[macro_reexport(vec)] extern crate alloc;
 
 pub extern crate bigint;
 
 use core::{slice, ptr, mem};
 use core::ops::Shl;
 pub use alloc::boxed::Box;
-pub use collections::Vec;
+pub use alloc::string::String;
+pub use alloc::str;
+pub use alloc::vec::Vec;
 pub use wasm_alloc::WamsAllocator;
 
 /// Wrapper over storage read/write externs
