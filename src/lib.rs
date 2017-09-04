@@ -6,11 +6,12 @@
 
 extern crate wasm_alloc;
 #[macro_use] #[macro_reexport(vec, format)] extern crate alloc;
+extern crate byteorder;
 
 pub extern crate bigint;
 
 use core::{slice, ptr, mem};
-use core::ops::Shl;
+use byteorder::{LittleEndian, ByteOrder};
 pub use alloc::boxed::Box;
 pub use alloc::string::String;
 pub use alloc::str;
@@ -51,19 +52,24 @@ unsafe fn read_ptr_mut(slc: &[u8]) -> *mut u8 {
 }
 
 pub fn read_u32(slc: &[u8]) -> u32 {
-	(slc[0] as u32) + (slc[1] as u32).shl(8) + (slc[2] as u32).shl(16) + (slc[3] as u32).shl(24)
+	LittleEndian::read_u32(slc)
 }
 
 pub fn write_u32(dst: &mut [u8], val: u32) {
-	dst[0] = (val & 0x000000ff) as u8;
-	dst[1] = ((val & 0x0000ff00) >> 8) as u8;
-	dst[2] = ((val & 0x00ff0000) >> 16) as u8;
-	dst[3] = ((val & 0xff000000) >> 24) as u8;
+	LittleEndian::write_u32(dst, val)
 }
 
-fn write_ptr(dst: &mut [u8], ptr: *mut u8) {
+pub fn write_ptr(dst: &mut [u8], ptr: *mut u8) {
 	// todo: consider: add assert that arch is 32bit
 	write_u32(dst, ptr as usize as u32);
+}
+
+pub fn read_u64(slc: &[u8]) -> u64 {
+	LittleEndian::read_u64(slc)
+}
+
+pub fn write_u64(dst: &mut [u8], val: u64) {
+	LittleEndian::write_u64(dst, val)
 }
 
 impl CallArgs {
