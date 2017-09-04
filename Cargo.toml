@@ -5,6 +5,7 @@ authors = ["NikVolf <nikvolf@gmail.com>"]
 
 [dependencies]
 wasm-alloc = { path = "alloc" }
+rustc-hex = "1.0.0"
 
 [dependencies.bigint]
 version = "4"

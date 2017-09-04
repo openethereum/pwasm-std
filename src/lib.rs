@@ -27,6 +27,10 @@ pub mod logger;
 /// Safe wrapper around externalities invokes
 pub mod ext;
 
+/// Fixed-size structures
+pub mod hash;
+mod hex;
+
 #[link(name = "env")]
 extern {
     fn panic(str_ptr: *const u8, str_len: u32);
@@ -39,6 +43,8 @@ pub fn panic_fmt(fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) ->
     unsafe { panic(message.as_ptr(), message.len() as u32) }
     unreachable!("panic MUST return Err(UserTrap); interpreter will stop execution when Err is returned; qed")
 }
+
+#[lang = "eh_personality"] extern fn eh_personality() {}
 
 /// Safe wrapper for call context
 pub struct CallArgs {
