@@ -2,9 +2,9 @@
 #![no_main]
 
 #[macro_use]
-extern crate wasm_std;
+extern crate pwasm_std;
 
-use wasm_std::{CallArgs, storage};
+use pwasm_std::{CallArgs, storage};
 
 #[no_mangle]
 pub fn call(descriptor: *mut u8) {
