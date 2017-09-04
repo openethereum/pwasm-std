@@ -5,7 +5,7 @@
 #![feature(macro_reexport)]
 
 extern crate wasm_alloc;
-#[macro_reexport(vec)] extern crate alloc;
+#[macro_use] #[macro_reexport(vec, format)] extern crate alloc;
 
 pub extern crate bigint;
 
@@ -27,14 +27,17 @@ pub mod logger;
 /// Safe wrapper around externalities invokes
 pub mod ext;
 
-extern "C" fn abort() {
+#[link(name = "env")]
+extern {
+    fn panic(str_ptr: *const u8, str_len: u32);
 }
 
 #[lang = "panic_fmt"]
-pub fn panic_fmt(_fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) -> !
+pub fn panic_fmt(fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) -> !
 {
-    abort();
-    unreachable!();
+    let message = format!("{}", fmt);
+    unsafe { panic(message.as_ptr(), message.len() as u32) }
+    unreachable!("panic MUST return Err(UserTrap); interpreter will stop execution when Err is returned; qed")
 }
 
 /// Safe wrapper for call context
