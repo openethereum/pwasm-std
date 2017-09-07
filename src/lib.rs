@@ -9,6 +9,7 @@ extern crate wasm_alloc;
 extern crate byteorder;
 
 pub extern crate bigint;
+pub extern crate parity_hash;
 
 use core::{slice, ptr, mem};
 use byteorder::{LittleEndian, ByteOrder};
@@ -17,6 +18,9 @@ pub use alloc::string::String;
 pub use alloc::str;
 pub use alloc::vec::Vec;
 pub use wasm_alloc::WamsAllocator;
+pub use parity_hash as hash;
+use hash::Address;
+use bigint::U256;
 
 /// Wrapper over storage read/write externs
 /// Storage api is a key-value storage where both key and value are 32 bytes in len
@@ -29,8 +33,6 @@ pub mod logger;
 pub mod ext;
 
 /// Fixed-size structures
-pub mod hash;
-mod hex;
 
 #[link(name = "env")]
 extern {
@@ -133,28 +135,28 @@ impl<'a> ParamsView<'a> {
 		ParamsView { raw: raw }
 	}
 
-	pub fn address(&self) -> [u8; 20] {
+	pub fn address(&self) -> Address {
 		let mut addr = [0u8; 20];
 		addr.copy_from_slice(&self.raw[0..20]);
-		addr
+		Address::from(addr)
 	}
 
-	pub fn sender(&self) -> [u8; 20] {
+	pub fn sender(&self) -> Address {
 		let mut sender = [0u8; 20];
 		sender.copy_from_slice(&self.raw[20..40]);
-		sender
+		Address::from(sender)
 	}
 
-	pub fn origin(&self) -> [u8; 20] {
+	pub fn origin(&self) -> Address {
 		let mut origin = [0u8; 20];
 		origin.copy_from_slice(&self.raw[40..60]);
-		origin
+		Address::from(origin)
 	}
 
-	pub fn value(&self) -> [u8; 32] {
+	pub fn value(&self) -> U256 {
 		let mut value = [0u8; 32];
 		value.copy_from_slice(&self.raw[60..92]);
-		value
+		U256::from_big_endian(&value)
 	}
 
 	pub fn args(&self) -> &[u8] {

@@ -1,3 +1,7 @@
+// use hash::H256;
+use bigint::U256;
+use hash::Address;
+
 #[derive(Debug)]
 pub struct Error;
 
@@ -66,14 +70,16 @@ mod external {
     }
 }
 
-pub fn suicide(refund: &[u8; 20]) {
+pub fn suicide(refund: &Address) {
     unsafe { external::suicide(refund.as_ptr()); }
 }
 
-pub fn create(endowment: &[u8; 32], code: &[u8]) -> Result<[u8; 20], Error> {
-    let mut result = [0u8; 20];
+pub fn create(endowment: U256, code: &[u8]) -> Result<Address, Error> {
+    let mut endowment_arr = [0u8; 32];
+    endowment.to_big_endian(&mut endowment_arr);
+    let mut result = Address::new();
     unsafe {
-        if external::create(endowment.as_ptr(), code.as_ptr(), code.len() as u32, (&mut result).as_mut_ptr()) == 0 {
+        if external::create(endowment_arr.as_ptr(), code.as_ptr(), code.len() as u32, (&mut result).as_mut_ptr()) == 0 {
             Ok(result)
         } else {
             Err(Error)
@@ -81,16 +87,18 @@ pub fn create(endowment: &[u8; 32], code: &[u8]) -> Result<[u8; 20], Error> {
     }
 }
 
-pub fn call(address: &[u8; 20], value: &[u8; 32], input: &[u8], result: &mut [u8]) -> Result<(), Error> {
+pub fn call(address: &Address, value: U256, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
+    let mut value_arr = [0u8; 32];
+    value.to_big_endian(&mut value_arr);
     unsafe {
-        match external::ccall(address.as_ptr(), value.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
+        match external::ccall(address.as_ptr(), value_arr.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
             0 => Ok(()),
             _ => Err(Error),
         }
     }
 }
 
-pub fn call_code(address: &[u8; 20], input: &[u8], result: &mut [u8]) -> Result<(), Error> {
+pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::dcall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
             0 => Ok(()),
@@ -99,7 +107,7 @@ pub fn call_code(address: &[u8; 20], input: &[u8], result: &mut [u8]) -> Result<
     }
 }
 
-pub fn static_call(address: &[u8; 20], input: &[u8], result: &mut [u8]) -> Result<(), Error> {
+pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::scall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
             0 => Ok(()),
@@ -118,8 +126,8 @@ pub fn block_hash(block_number: u64) -> Result<[u8; 32], Error> {
     }
 }
 
-pub fn coinbase() -> [u8; 20] {
-    let mut res = [0u8; 20];
+pub fn coinbase() -> Address {
+    let mut res = Address::new();
     unsafe { external::coinbase(res.as_mut_ptr()); }
     res
 }
@@ -132,14 +140,14 @@ pub fn block_number() -> u64 {
     unsafe { external::blocknumber()  as u64 }
 }
 
-pub fn difficulty() -> [u8; 32] {
+pub fn difficulty() -> U256 {
     let mut res = [0u8; 32];
     unsafe { external::difficulty(res.as_mut_ptr()); }
-    res
+    U256::from_big_endian(&res)
 }
 
-pub fn gas_limit() -> [u8; 32] {
+pub fn gas_limit() -> U256 {
     let mut res = [0u8; 32];
     unsafe { external::gaslimit(res.as_mut_ptr()); }
-    res
+    U256::from_big_endian(&res)
 }
