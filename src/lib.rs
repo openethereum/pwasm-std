@@ -83,11 +83,11 @@ pub fn write_u64(dst: &mut [u8], val: u64) {
 	LittleEndian::write_u64(dst, val)
 }
 
-pub fn sha3<T>(input: T) -> H256 where T: AsRef<[u8]> {
+pub fn keccak<T>(input: T) -> H256 where T: AsRef<[u8]> {
 	let mut keccak = Keccak::new_keccak256();
-    let mut res = H256::new();
+	let mut res = H256::new();
 	keccak.update(input.as_ref());
-    keccak.finalize(&mut res);
+	keccak.finalize(&mut res);
 	res
 }
 
