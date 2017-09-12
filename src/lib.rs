@@ -10,6 +10,7 @@ extern crate byteorder;
 
 pub extern crate bigint;
 pub extern crate parity_hash;
+extern crate tiny_keccak;
 
 use core::{slice, ptr, mem};
 use byteorder::{LittleEndian, ByteOrder};
@@ -19,7 +20,9 @@ pub use alloc::str;
 pub use alloc::vec::Vec;
 pub use wasm_alloc::WamsAllocator;
 pub use parity_hash as hash;
+use tiny_keccak::Keccak;
 use hash::Address;
+use hash::H256;
 use bigint::U256;
 
 /// Wrapper over storage read/write externs
@@ -78,6 +81,14 @@ pub fn read_u64(slc: &[u8]) -> u64 {
 
 pub fn write_u64(dst: &mut [u8], val: u64) {
 	LittleEndian::write_u64(dst, val)
+}
+
+pub fn sha3<T>(input: T) -> H256 where T: AsRef<[u8]> {
+	let mut keccak = Keccak::new_keccak256();
+    let mut res = H256::new();
+	keccak.update(input.as_ref());
+    keccak.finalize(&mut res);
+	res
 }
 
 impl CallArgs {
