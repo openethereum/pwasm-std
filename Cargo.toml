@@ -5,6 +5,7 @@ authors = ["NikVolf <nikvolf@gmail.com>"]
 
 [dependencies]
 wasm-alloc = { path = "alloc" }
+tiny-keccak = "1.3"
 
 [dependencies.bigint]
 version = "4"
