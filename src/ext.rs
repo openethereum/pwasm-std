@@ -1,4 +1,4 @@
-// use hash::H256;
+use hash::H256;
 use bigint::U256;
 use hash::Address;
 
@@ -67,6 +67,14 @@ mod external {
         pub fn difficulty(dest: *mut u8);
 
         pub fn gaslimit(dest: *mut u8);
+
+        pub fn sender(dest: *mut u8);
+
+        pub fn address(dest: *mut u8);
+
+        pub fn value(dest: *mut u8);
+
+        pub fn origin(dest: *mut u8);
     }
 }
 
@@ -116,8 +124,8 @@ pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result
     }
 }
 
-pub fn block_hash(block_number: u64) -> Result<[u8; 32], Error> {
-    let mut res = [0u8; 32];
+pub fn block_hash(block_number: u64) -> Result<H256, Error> {
+    let mut res = H256::zero();
     unsafe {
         match external::blockhash(block_number as i64, res.as_mut_ptr()) {
             0 => Ok(res),
@@ -126,10 +134,20 @@ pub fn block_hash(block_number: u64) -> Result<[u8; 32], Error> {
     }
 }
 
-pub fn coinbase() -> Address {
-    let mut res = Address::new();
-    unsafe { external::coinbase(res.as_mut_ptr()); }
+unsafe fn fetch_address<F>(f: F) -> Address where F: Fn(*mut u8) {
+    let mut res = Address::zero();
+    f(res.as_mut_ptr());
     res
+}
+
+unsafe fn fetch_u256<F>(f: F) -> U256 where F: Fn(*mut u8) {
+    let mut res = [0u8; 32];
+    f(res.as_mut_ptr());
+    U256::from_big_endian(&res)
+}
+
+pub fn coinbase() -> Address {
+    unsafe { fetch_address(|x| external::coinbase(x) ) }
 }
 
 pub fn timestamp() -> u64 {
@@ -141,13 +159,25 @@ pub fn block_number() -> u64 {
 }
 
 pub fn difficulty() -> U256 {
-    let mut res = [0u8; 32];
-    unsafe { external::difficulty(res.as_mut_ptr()); }
-    U256::from_big_endian(&res)
+    unsafe { fetch_u256(|x| external::difficulty(x) ) }
 }
 
 pub fn gas_limit() -> U256 {
-    let mut res = [0u8; 32];
-    unsafe { external::gaslimit(res.as_mut_ptr()); }
-    U256::from_big_endian(&res)
+    unsafe { fetch_u256(|x| external::gaslimit(x) ) }
+}
+
+pub fn sender() -> Address {
+    unsafe { fetch_address(|x| external::sender(x) ) }
+}
+
+pub fn origin() -> Address {
+    unsafe { fetch_address(|x| external::origin(x) ) }
+}
+
+pub fn value() -> U256 {
+    unsafe { fetch_u256(|x| external::value(x) ) }
+}
+
+pub fn address() -> Address {
+    unsafe { fetch_address(|x| external::address(x) ) }
 }
