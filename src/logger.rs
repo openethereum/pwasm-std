@@ -1,5 +1,5 @@
 mod external {
-    #[link(name = "env")]
+    #[cfg_attr(not(feature="std"), link(name = "env"))]
     extern {
         pub fn debug(str_ptr: *const u8, str_len: u32);
     }
