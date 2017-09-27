@@ -3,7 +3,7 @@ use hash::H256;
 #[derive(Debug)]
 pub struct Error;
 
-#[link(name = "env")]
+#[cfg_attr(not(feature="std"), link(name = "env"))]
 extern {
     fn storage_read(key: *const u8, dst: *mut u8) -> i32;
     fn storage_write(key: *const u8, src: *const u8) -> i32;

@@ -1,8 +1,11 @@
-#![no_std]
+#![cfg_attr(not(feature="std"), no_std)]
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
 #![feature(macro_reexport)]
+
+#[cfg(feature="std")]
+extern crate core;
 
 extern crate wasm_alloc;
 #[macro_use] #[macro_reexport(vec, format)] extern crate alloc;
@@ -42,11 +45,12 @@ pub use crypto::keccak;
 
 /// Fixed-size structures
 
-#[link(name = "env")]
+#[cfg(not(feature="std"))]
 extern {
     fn panic(str_ptr: *const u8, str_len: u32);
 }
 
+#[cfg(not(feature="std"))]
 #[lang = "panic_fmt"]
 pub fn panic_fmt(fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) -> !
 {
@@ -55,6 +59,7 @@ pub fn panic_fmt(fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) ->
     unreachable!("panic MUST return Err(UserTrap); interpreter will stop execution when Err is returned; qed")
 }
 
+#[cfg(not(feature="std"))]
 #[lang = "eh_personality"] extern fn eh_personality() {}
 
 unsafe fn read_ptr_mut(slc: &[u8]) -> *mut u8 {

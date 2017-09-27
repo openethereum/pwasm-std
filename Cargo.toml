@@ -18,3 +18,7 @@ default-features = false
 [dependencies.parity-hash]
 version = "1"
 default-features = false
+
+[features]
+default = []
+std = []
