@@ -20,4 +20,4 @@ The crate is supposed to be used on nightly Rust only, until the custom allocato
 
 `pwasm-std` is itself compiled with no_std and expected to be used within no_std-crates/binaries, since it defines `lang_item`-s on it's own, which will conflict with standard library.
 
-But for test scenarios it can be compiled with feature "std" and auxiliary crate "pwasm-test" to support testing of internal logic of contracts.
+But for test scenarios it can be compiled with feature "std" and auxiliary crate "pwasm-test" to support testing of contracts' internal logic.
