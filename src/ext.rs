@@ -58,6 +58,8 @@ mod external {
         /// Block hash of the specific block
         pub fn blockhash(number: i64, dest: *mut u8) -> i32;
 
+        pub fn balance(address: *const u8, dest: *mut u8);
+
         pub fn coinbase(dest: *mut u8);
 
         pub fn timestamp() -> i64;
@@ -80,6 +82,10 @@ mod external {
 
 pub fn suicide(refund: &Address) {
     unsafe { external::suicide(refund.as_ptr()); }
+}
+
+pub fn balance(address: &Address) -> U256 {
+    unsafe { fetch_u256(|x| external::balance(address.as_ptr(), x) ) }
 }
 
 pub fn create(endowment: U256, code: &[u8]) -> Result<Address, Error> {
