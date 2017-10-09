@@ -21,4 +21,4 @@ default-features = false
 
 [features]
 default = []
-std = []
+std = ["parity-hash/std"]
