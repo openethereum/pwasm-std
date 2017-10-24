@@ -2,7 +2,7 @@
 
 Parity WASM contracts standard library for Rust
 
-[![Build Status](https://travis-ci.org/NikVolf/pwasm-std.svg?branch=master)](https://travis-ci.org/NikVolf/pwasm-std)
+[![Build Status](https://travis-ci.org/paritytech/pwasm-std.svg?branch=master)](https://travis-ci.org/NikVolf/pwasm-std)
 
 It is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
 
@@ -11,7 +11,7 @@ It is a limited subset of the Rust standard library, along with a custom allocat
 Just add a git dependency
 ```toml
 [dendencies] 
-pwasm-std = { git = "https://github.com/NikVolf/pwasm-std" }
+pwasm-std = { git = "https://github.com/paritytech/pwasm-std" }
 ```
 
 The crate is supposed to be used on nightly Rust only, until the custom allocator api stablizes in Rust.
