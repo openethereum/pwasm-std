@@ -18,8 +18,7 @@ mod external {
     }
 
     #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-
+    extern "C" {
         // Various call variants
 
         /// Direct/classic call.
@@ -77,6 +76,8 @@ mod external {
         pub fn value(dest: *mut u8);
 
         pub fn origin(dest: *mut u8);
+
+        pub fn log(topic_ptr: *const u8, topic_count: u32, data_ptr: *const u8, data_len: u32);
     }
 }
 
@@ -186,4 +187,8 @@ pub fn value() -> U256 {
 
 pub fn address() -> Address {
     unsafe { fetch_address(|x| external::address(x) ) }
+}
+
+pub fn log(topics: &[H256], data: &[u8]) {
+    unsafe { external::log(topics.as_ptr() as *const u8, topics.len() as u32, data.as_ptr(), data.len() as u32); }
 }
