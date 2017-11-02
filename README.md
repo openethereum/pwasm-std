@@ -10,7 +10,7 @@ It is a limited subset of the Rust standard library, along with a custom allocat
 
 Just add a git dependency
 ```toml
-[dendencies] 
+[dendencies]
 pwasm-std = { git = "https://github.com/paritytech/pwasm-std" }
 ```
 
@@ -21,3 +21,10 @@ The crate is supposed to be used on nightly Rust only, until the custom allocato
 `pwasm-std` is itself compiled with no_std and expected to be used within no_std-crates/binaries, since it defines `lang_item`-s on it's own, which will conflict with standard library.
 
 But for test scenarios it can be compiled with feature "std" and auxiliary crate "pwasm-test" to support testing of contracts' internal logic.
+
+# License
+
+`pwasm-std` is primarily distributed under the terms of both the MIT
+license and the Apache License (Version 2.0), at your choice.
+
+See LICENSE-APACHE, and LICENSE-MIT for details.
