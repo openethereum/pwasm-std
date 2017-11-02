@@ -77,7 +77,7 @@ mod external {
 
         pub fn origin(dest: *mut u8);
 
-        pub fn log(topic_ptr: *const u8, topic_count: u32, data_ptr: *const u8, data_len: u32);
+        pub fn elog(topic_ptr: *const u8, topic_count: u32, data_ptr: *const u8, data_len: u32);
     }
 }
 
@@ -190,5 +190,5 @@ pub fn address() -> Address {
 }
 
 pub fn log(topics: &[H256], data: &[u8]) {
-    unsafe { external::log(topics.as_ptr() as *const u8, topics.len() as u32, data.as_ptr(), data.len() as u32); }
+    unsafe { external::elog(topics.as_ptr() as *const u8, topics.len() as u32, data.as_ptr(), data.len() as u32); }
 }
