@@ -53,8 +53,12 @@ extern {
 
 #[cfg(not(feature="std"))]
 #[lang = "panic_fmt"]
-pub fn panic_fmt(fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) -> !
-{
+pub fn panic_fmt(
+	fmt: core::fmt::Arguments,
+	_file: &'static str,
+	_line: u32,
+	_col: u32,
+) -> ! {
     let message = format!("{}", fmt);
     unsafe { panic(message.as_ptr(), message.len() as u32) }
     unreachable!("panic MUST return Err(UserTrap); interpreter will stop execution when Err is returned; qed")
