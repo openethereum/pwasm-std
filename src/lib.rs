@@ -64,7 +64,7 @@ pub fn panic_fmt(fmt: core::fmt::Arguments, _file_line: &(&'static str, u32)) ->
 #[lang = "eh_personality"] extern fn eh_personality() {}
 
 unsafe fn read_ptr_mut(slc: &[u8]) -> *mut u8 {
-	ptr::null_mut().offset(read_u32(slc) as isize)
+	read_u32(slc) as *const u8 as *mut u8
 }
 
 pub fn read_u32(slc: &[u8]) -> u32 {
