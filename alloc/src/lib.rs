@@ -10,10 +10,10 @@ extern crate alloc;
 use alloc::heap::{Alloc, Layout, AllocErr};
 
 pub mod stubs {
-	// Declare stubs for `malloc` and `free`.
-	// This is needed to convince Emscripten not to provide
-	// his own implementations of these functions.
-	// It is important to mark this functions as `inline(never)`.
+	// These function stubs are needed to convince Emscripten not to provide
+	// his own implementations of these functions. They are expected to
+	// be externilized by wasm-build.
+	// It is important to mark these functions as `inline(never)`.
 
 	#[inline(never)]
 	#[no_mangle]

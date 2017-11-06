@@ -43,6 +43,9 @@ mod wrapped;
 /// Crypto functions
 mod crypto;
 
+#[cfg(not(feature="std"))]
+pub mod mem;
+
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
 
