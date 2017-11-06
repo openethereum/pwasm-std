@@ -1,3 +1,4 @@
+#![cfg_attr(feature = "strict", deny(warnings))]
 #![no_std]
 #![crate_type = "rlib"]
 #![feature(global_allocator)]

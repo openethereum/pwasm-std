@@ -9,7 +9,8 @@
 extern crate core;
 
 extern crate wasm_alloc;
-#[macro_reexport(vec, format)] extern crate alloc;
+#[macro_reexport(vec, format)]
+extern crate alloc;
 extern crate byteorder;
 
 pub extern crate bigint;
