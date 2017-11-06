@@ -22,3 +22,4 @@ default-features = false
 [features]
 default = []
 std = ["parity-hash/std", "bigint/std"]
+strict = []
