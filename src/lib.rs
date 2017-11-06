@@ -1,4 +1,5 @@
 #![cfg_attr(not(feature="std"), no_std)]
+#![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
@@ -8,7 +9,8 @@
 extern crate core;
 
 extern crate wasm_alloc;
-#[macro_reexport(vec, format)] extern crate alloc;
+#[macro_reexport(vec, format)]
+extern crate alloc;
 extern crate byteorder;
 
 pub extern crate bigint;

@@ -40,7 +40,7 @@ pub struct WrappedResult {
 impl WrappedResult {
 	pub fn done(self, val: Vec<u8>) {
 		if val.len() > 0 {
-			let mut dst = unsafe { slice::from_raw_parts_mut(self.inner, 2 * 4) };
+			let dst = unsafe { slice::from_raw_parts_mut(self.inner, 2 * 4) };
 
 			write_ptr(&mut dst[0..4], val.as_ptr() as *mut _);
 			write_u32(&mut dst[4..8], val.len() as u32);

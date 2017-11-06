@@ -2,4 +2,5 @@ language: rust
 rust:
   - nightly
 script:
-  - cargo build --verbose --all
+  - cargo build --verbose --features strict --manifest-path=alloc/Cargo.toml
+  - cargo build --verbose --features strict
