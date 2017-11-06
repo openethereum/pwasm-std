@@ -14,9 +14,9 @@ extern "C" {
     fn free(ptr: *mut u8);
 }
 
-pub struct WamsAllocator;
+pub struct WasmAllocator;
 
-unsafe impl<'a> Alloc for &'a WamsAllocator {
+unsafe impl<'a> Alloc for &'a WasmAllocator {
     unsafe fn alloc(&mut self, layout: Layout) -> Result<*mut u8, AllocErr> {
         Ok(malloc(layout.size()))
     }
@@ -27,4 +27,4 @@ unsafe impl<'a> Alloc for &'a WamsAllocator {
 }
 
 #[global_allocator]
-static ALLOCATOR: WamsAllocator = WamsAllocator;
+static ALLOCATOR: WasmAllocator = WasmAllocator;

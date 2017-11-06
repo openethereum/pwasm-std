@@ -23,7 +23,7 @@ pub use alloc::boxed::Box;
 pub use alloc::string::String;
 pub use alloc::str;
 pub use alloc::vec::Vec;
-pub use wasm_alloc::WamsAllocator;
+pub use wasm_alloc::WasmAllocator;
 pub use parity_hash as hash;
 
 /// Wrapper over storage read/write externs
