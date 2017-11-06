@@ -11,7 +11,7 @@ use alloc::heap::{Alloc, Layout, AllocErr};
 
 pub mod stubs {
 	// These function stubs are needed to convince Emscripten not to provide
-	// his own implementations of these functions. They are expected to
+	// its own implementations of these functions. They are expected to
 	// be externilized by wasm-build.
 	// It is important to mark these functions as `inline(never)`.
 
