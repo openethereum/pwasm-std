@@ -8,14 +8,13 @@
 extern crate core;
 
 extern crate wasm_alloc;
-#[macro_use] #[macro_reexport(vec, format)] extern crate alloc;
+#[macro_reexport(vec, format)] extern crate alloc;
 extern crate byteorder;
 
 pub extern crate bigint;
 pub extern crate parity_hash;
 extern crate tiny_keccak;
 
-use core::ptr;
 use byteorder::{LittleEndian, ByteOrder};
 
 pub use alloc::boxed::Box;
@@ -44,24 +43,22 @@ mod crypto;
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
 
-/// Fixed-size structures
-
-#[cfg(not(feature="std"))]
-extern {
-    fn panic(str_ptr: *const u8, str_len: u32);
-}
-
 #[cfg(not(feature="std"))]
 #[lang = "panic_fmt"]
 pub fn panic_fmt(
-	fmt: core::fmt::Arguments,
-	_file: &'static str,
+	_fmt: core::fmt::Arguments,
+	file: &'static str,
 	_line: u32,
 	_col: u32,
 ) -> ! {
-    let message = format!("{}", fmt);
-    unsafe { panic(message.as_ptr(), message.len() as u32) }
-    unreachable!("panic MUST return Err(UserTrap); interpreter will stop execution when Err is returned; qed")
+	extern "C" {
+		fn panic(str_ptr: *const u8, str_len: u32) -> !;
+	}
+	unsafe {
+		let ptr = file.as_ptr();
+		let len = file.len() as u32;
+		panic(ptr, len);
+	}
 }
 
 #[cfg(not(feature="std"))]
