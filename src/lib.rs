@@ -8,7 +8,9 @@
 #[cfg(feature="std")]
 extern crate core;
 
+#[cfg(not(feature="std"))]
 extern crate wasm_alloc;
+
 #[macro_reexport(vec, format)]
 extern crate alloc;
 extern crate byteorder;
@@ -23,7 +25,6 @@ pub use alloc::boxed::Box;
 pub use alloc::string::String;
 pub use alloc::str;
 pub use alloc::vec::Vec;
-pub use wasm_alloc::WamsAllocator;
 pub use parity_hash as hash;
 
 /// Wrapper over storage read/write externs
@@ -41,6 +42,9 @@ mod wrapped;
 
 /// Crypto functions
 mod crypto;
+
+#[cfg(not(feature="std"))]
+pub mod mem;
 
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
