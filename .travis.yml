@@ -3,4 +3,5 @@ rust:
   - nightly
 script:
   - cargo build --verbose --features strict --manifest-path=alloc/Cargo.toml
+  - cargo build --verbose --features strict --manifest-path=libc/Cargo.toml
   - cargo build --verbose --features strict
