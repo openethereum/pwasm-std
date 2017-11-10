@@ -11,6 +11,9 @@ extern crate core;
 #[cfg(not(feature="std"))]
 extern crate wasm_alloc;
 
+#[cfg(not(feature="std"))]
+extern crate wasm_libc;
+
 #[macro_reexport(vec, format)]
 extern crate alloc;
 extern crate byteorder;
@@ -42,9 +45,6 @@ mod wrapped;
 
 /// Crypto functions
 mod crypto;
-
-#[cfg(not(feature="std"))]
-pub mod mem;
 
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
