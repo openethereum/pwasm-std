@@ -46,29 +46,11 @@ mod wrapped;
 /// Crypto functions
 mod crypto;
 
+#[cfg(not(feature = "std"))]
+mod panic;
+
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
-
-#[cfg(not(feature="std"))]
-#[lang = "panic_fmt"]
-pub fn panic_fmt(
-	_fmt: core::fmt::Arguments,
-	file: &'static str,
-	_line: u32,
-	_col: u32,
-) -> ! {
-	extern "C" {
-		fn panic(str_ptr: *const u8, str_len: u32) -> !;
-	}
-	unsafe {
-		let ptr = file.as_ptr();
-		let len = file.len() as u32;
-		panic(ptr, len);
-	}
-}
-
-#[cfg(not(feature="std"))]
-#[lang = "eh_personality"] extern fn eh_personality() {}
 
 unsafe fn read_ptr_mut(slc: &[u8]) -> *mut u8 {
 	read_u32(slc) as *const u8 as *mut u8
