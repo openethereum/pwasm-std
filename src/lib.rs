@@ -52,10 +52,6 @@ mod panic;
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
 
-unsafe fn read_ptr_mut(slc: &[u8]) -> *mut u8 {
-	read_u32(slc) as *const u8 as *mut u8
-}
-
 pub fn read_u32(slc: &[u8]) -> u32 {
 	LittleEndian::read_u32(slc)
 }
