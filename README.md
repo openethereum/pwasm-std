@@ -10,7 +10,7 @@ It is a limited subset of the Rust standard library, along with a custom allocat
 
 Just add a git dependency
 ```toml
-[dendencies]
+[dependencies]
 pwasm-std = { git = "https://github.com/paritytech/pwasm-std" }
 ```
 
