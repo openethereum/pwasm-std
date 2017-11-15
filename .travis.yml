@@ -1,7 +1,13 @@
 language: rust
+
 rust:
   - nightly
+sudo: required
+services:
+  - docker
+before_install:
+  - docker run -dit --name emscripten -v $(pwd):/src alexfro/rust-wasm32-unknown-emscripten bash
 script:
-  - cargo build --verbose --features strict --manifest-path=alloc/Cargo.toml
-  - cargo build --verbose --features strict --manifest-path=libc/Cargo.toml
-  - cargo build --verbose --features strict
+  - cargo build --features std
+  - docker exec -it emscripten sh -c "cargo install --git https://github.com/paritytech/wasm-utils wasm-build"
+  - docker exec -it emscripten sh -c "cd demo && ./build.sh"
