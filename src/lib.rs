@@ -14,7 +14,6 @@ extern crate wasm_alloc;
 #[cfg(not(feature="std"))]
 extern crate wasm_libc;
 
-#[cfg_attr(not(feature="std"), macro_use)]
 #[macro_reexport(vec, format)]
 extern crate alloc;
 extern crate byteorder;

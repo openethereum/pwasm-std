@@ -24,3 +24,4 @@ default-features = false
 default = []
 std = ["parity-hash/std", "bigint/std"]
 strict = []
+panic_with_msg = []

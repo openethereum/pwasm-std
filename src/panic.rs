@@ -11,13 +11,16 @@ struct PanicPayload {
 }
 
 #[lang = "panic_fmt"]
-pub fn panic_fmt(fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
+pub fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
 	extern "C" {
 		fn panic(payload_ptr: *const u8, payload_len: u32) -> !;
 	}
 
-	// TODO: feature
-	let message = format!("{}", fmt);
+	#[cfg(panic_with_msg)]
+	let message = format!("{}", _fmt);
+
+	#[cfg(not(panic_with_msg))]
+	let message = &[];
 
 	unsafe {
 		let payload = PanicPayload {
