@@ -15,10 +15,16 @@ pub struct WrappedArgs {
 
 impl ops::Deref for WrappedArgs {
 	type Target = [u8];
-
     fn deref(&self) -> &Self::Target {
 		unsafe {
-			slice::from_raw_parts((*self.desc).args_ptr, (*self.desc).args_len)
+			let ptr = (*self.desc).args_ptr;
+			let len = (*self.desc).args_len;
+			if len == 0 {
+				// It is UB to create a slice with the null ptr.
+				&[]
+			} else {
+				slice::from_raw_parts(ptr, len)
+			}
 		}
 	}
 }
