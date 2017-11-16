@@ -1,30 +1,40 @@
-use core::mem;
+#![cfg(not(feature = "std"))]
 
-#[repr(C)]
-struct PanicPayload {
-	file_ptr: *const u8,
-	file_len: usize,
-	line: u32,
-	col: u32,
-}
+use Vec;
+use byteorder::{LittleEndian, ByteOrder};
 
 #[lang = "panic_fmt"]
 pub fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
 	extern "C" {
 		fn panic(payload_ptr: *const u8, payload_len: u32) -> !;
 	}
+
+	#[cfg(feature = "panic_with_msg")]
+	let message = format!("{}", _fmt);
+
+	#[cfg(not(feature = "panic_with_msg"))]
+	let message = ::alloc::String::new();
+
+	let mut payload = Vec::with_capacity(message.as_bytes().len() + file.as_bytes().len() + 8);
+	write_str(&mut payload, message.as_bytes());
+	write_str(&mut payload, file.as_bytes());
+	write_u32(&mut payload, line);
+	write_u32(&mut payload, col);
+
 	unsafe {
-		let payload = PanicPayload {
-			file_ptr: file.as_ptr(),
-			file_len: file.len(),
-			line: line,
-			col: col,
-		};
-		panic(
-			&payload as *const PanicPayload as *const u8,
-			mem::size_of::<PanicPayload>() as u32,
-		);
+		panic(payload.as_ptr(), payload.len() as u32);
 	}
+}
+
+fn write_u32(payload: &mut Vec<u8>, val: u32) {
+	let mut val_bytes = [0u8; 4];
+	LittleEndian::write_u32(&mut val_bytes, val);
+	payload.extend(&val_bytes);
+}
+
+fn write_str(payload: &mut Vec<u8>, bytes: &[u8]) {
+	write_u32(payload, bytes.len() as u32);
+	payload.extend(bytes);
 }
 
 #[lang = "eh_personality"]
