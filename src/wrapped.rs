@@ -13,14 +13,6 @@ pub struct WrappedArgs {
 	desc: *const Descriptor
 }
 
-impl AsRef<[u8]> for WrappedArgs {
-	fn as_ref(&self) -> &[u8] {
-		unsafe {
-			slice::from_raw_parts((*self.desc).args_ptr, (*self.desc).args_len)
-		}
-	}
-}
-
 impl ops::Deref for WrappedArgs {
 	type Target = [u8];
 
@@ -28,6 +20,12 @@ impl ops::Deref for WrappedArgs {
 		unsafe {
 			slice::from_raw_parts((*self.desc).args_ptr, (*self.desc).args_len)
 		}
+	}
+}
+
+impl AsRef<[u8]> for WrappedArgs {
+	fn as_ref(&self) -> &[u8] {
+		&*self
 	}
 }
 
