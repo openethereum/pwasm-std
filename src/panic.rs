@@ -1,6 +1,6 @@
 #![cfg(not(feature = "std"))]
 
-use {Vec};
+use Vec;
 use byteorder::{LittleEndian, ByteOrder};
 
 #[lang = "panic_fmt"]
@@ -15,7 +15,7 @@ pub fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, co
 	#[cfg(not(feature = "panic_with_msg"))]
 	let message = ::alloc::String::new();
 
-	let mut payload = Vec::new();
+	let mut payload = Vec::with_capacity(message.as_bytes().len() + file.as_bytes().len() + 8);
 	write_str(&mut payload, message.as_bytes());
 	write_str(&mut payload, file.as_bytes());
 	write_u32(&mut payload, line);
