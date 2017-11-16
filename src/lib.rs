@@ -14,8 +14,20 @@ extern crate wasm_alloc;
 #[cfg(not(feature="std"))]
 extern crate wasm_libc;
 
-#[macro_reexport(vec, format)]
-extern crate alloc;
+#[macro_use]
+extern crate cfg_if;
+
+cfg_if! {
+	if #[cfg(all(feature="panic_with_msg", not(feature="std")))] {
+		#[macro_use]
+		#[macro_reexport(vec, format)]
+		extern crate alloc;
+	} else {
+		#[macro_reexport(vec, format)]
+		extern crate alloc;
+	}
+}
+
 extern crate byteorder;
 
 pub extern crate bigint;
@@ -46,7 +58,6 @@ mod wrapped;
 /// Crypto functions
 mod crypto;
 
-#[cfg(not(feature = "std"))]
 mod panic;
 
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
