@@ -9,7 +9,7 @@ mod external {
 
     #[cfg_attr(not(feature="std"), link(name = "env"))]
     extern {
-        pub fn suicide(refund: *const u8);
+        pub fn suicide(refund: *const u8) -> !;
     }
 
     #[cfg_attr(not(feature="std"), link(name = "env"))]
@@ -81,7 +81,7 @@ mod external {
     }
 }
 
-pub fn suicide(refund: &Address) {
+pub fn suicide(refund: &Address) -> ! {
     unsafe { external::suicide(refund.as_ptr()); }
 }
 
