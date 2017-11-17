@@ -13,21 +13,25 @@ pub struct WrappedArgs {
 	desc: *const Descriptor
 }
 
-impl AsRef<[u8]> for WrappedArgs {
-	fn as_ref(&self) -> &[u8] {
+impl ops::Deref for WrappedArgs {
+	type Target = [u8];
+    fn deref(&self) -> &Self::Target {
 		unsafe {
-			slice::from_raw_parts((*self.desc).args_ptr, (*self.desc).args_len)
+			let ptr = (*self.desc).args_ptr;
+			let len = (*self.desc).args_len;
+			if len == 0 {
+				// It is UB to create a slice with null ptr.
+				&[]
+			} else {
+				slice::from_raw_parts(ptr, len)
+			}
 		}
 	}
 }
 
-impl ops::Deref for WrappedArgs {
-	type Target = [u8];
-
-    fn deref(&self) -> &Self::Target {
-		unsafe {
-			slice::from_raw_parts((*self.desc).args_ptr, (*self.desc).args_len)
-		}
+impl AsRef<[u8]> for WrappedArgs {
+	fn as_ref(&self) -> &[u8] {
+		&*self
 	}
 }
 
