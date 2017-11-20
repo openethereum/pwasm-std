@@ -2,10 +2,6 @@
 
 use hash::H256;
 
-/// Storage error
-#[derive(Debug)]
-pub struct Error;
-
 #[cfg_attr(not(feature="std"), link(name = "env"))]
 extern {
     fn storage_read(key: *const u8, dst: *mut u8);
