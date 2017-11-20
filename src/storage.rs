@@ -11,13 +11,12 @@
 //! # // because they require externs to be defined.
 //! # mod storage {
 //! # use pwasm_std::hash::H256;
-//! # use pwasm_std::storage::Error;
-//! # pub fn read(key: &H256) -> Result<[u8; 32], Error> { Ok([0u8; 32]) }
-//! # pub fn write(key: &H256, val: &[u8; 32]) -> Result<(), Error> { Ok(()) }
+//! # pub fn read(key: &H256) -> [u8; 32] { [0u8; 32] }
+//! # pub fn write(key: &H256, val: &[u8; 32]) { }
 //! # }
 //!
-//! let _ = storage::write(&H256::from([1u8; 32]), &[1u8; 32]).unwrap();
-//! let _v = storage::read(&H256::from([1u8; 32])).unwrap();
+//! let _ = storage::write(&H256::from([1u8; 32]), &[1u8; 32]);
+//! let _v = storage::read(&H256::from([1u8; 32]));
 //! ```
 
 use hash::H256;
