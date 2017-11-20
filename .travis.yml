@@ -16,6 +16,9 @@ script:
   wasm-build"
 - docker exec -it emscripten sh -c "cd demo && ./build.sh"
 after_success: |-
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  [ $TRAVIS_RUST_VERSION = stable ] &&
   cargo doc \
   && echo '<meta http-equiv=refresh content=0;url=pwasm_std/index.html>' > target/doc/index.html && \
   sudo pip install ghp-import && \
