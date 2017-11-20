@@ -1,13 +1,13 @@
 //! Standard library for parity wasm contracts
 
 #![cfg_attr(not(feature="std"), no_std)]
+#![warn(missing_docs)]
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
 #![feature(macro_reexport)]
 
-#![cfg_attr(feature = "strict", warn(missing_docs))]
 
 #[cfg(feature="std")]
 extern crate core;

@@ -1,4 +1,4 @@
-#![cfg_attr(feature = "strict", deny(missing_docs))]
+#![warn(missing_docs)]
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![no_std]
 
