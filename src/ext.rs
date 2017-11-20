@@ -1,3 +1,5 @@
+//! Safe wrapper around externalities invokes.
+
 use hash::H256;
 use bigint::U256;
 use hash::Address;
