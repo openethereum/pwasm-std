@@ -128,7 +128,12 @@ pub fn call(address: &Address, value: U256, input: &[u8], result: &mut [u8]) -> 
     }
 }
 
-/// Call code
+/// Like [`call`], but with code at the given `address`.
+///
+/// Effectively this function is like calling current account but with
+/// different code (i.e. like `DELEGATECALL` EVM instruction).
+///
+/// [`call`]: fn.call.html
 pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::dcall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
@@ -138,7 +143,9 @@ pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(
     }
 }
 
-/// Static call
+/// Like [`call`], but this call and any of it's subcalls are disallowed to modify any storage.
+///
+/// [`call`]: fn.call.html
 pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::scall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
@@ -154,7 +161,6 @@ pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result
 ///
 /// In fact, this function doesn't return an error. In case of error this
 /// function will return `H256::zero()`.
-///
 pub fn block_hash(block_number: u64) -> Result<H256, Error> {
     let mut res = H256::zero();
     unsafe {
