@@ -1,5 +1,5 @@
 use core::{slice, mem, ops};
-use {Vec};
+use Vec;
 
 #[repr(C)]
 struct Descriptor {
@@ -9,7 +9,31 @@ struct Descriptor {
 	result_len: usize,
 }
 
-/// Wrapped args
+/// Input data of a contract.
+///
+/// Basically it can be viewed as
+/// a byte slice (`&[u8]`) and it has `Deref<Target=[u8]>` impl indeed.
+///
+/// You should use [`parse_args`] to acquire `WrappedArgs`.
+///
+/// # Examples
+///
+/// ```rust
+/// use pwasm_std::WrappedArgs;
+///
+/// fn takes_slice(input: &[u8]) {
+/// 	// ...
+/// # input.len(); // to silence unused var warnings
+/// }
+///
+/// #[no_mangle]
+/// pub fn call(descriptor: *mut u8) {
+/// 	let (input, result): (WrappedArgs, _) = unsafe { pwasm_std::parse_args(descriptor) };
+/// 	takes_slice(&input);
+/// }
+/// ```
+///
+/// [`parse_args`]: fn.parse_args.html
 pub struct WrappedArgs {
 	desc: *const Descriptor
 }
@@ -36,7 +60,9 @@ impl AsRef<[u8]> for WrappedArgs {
 	}
 }
 
-/// Wrapped result
+/// Writeable handle of execution results.
+///
+/// You can use this handle to write execution results of your contract.
 pub struct WrappedResult {
 	desc: *mut Descriptor
 }
@@ -56,7 +82,23 @@ impl WrappedResult {
 	}
 }
 
-/// Parse decriptor into wrapped args and result
+/// Parse decriptor into wrapped args and result.
+///
+/// # Safety
+///
+/// `ptr` should be non-null and point to a valid descriptor.
+///
+/// # Examples
+///
+/// ```rust
+/// #[no_mangle]
+/// pub fn call(descriptor: *mut u8) {
+/// 	let (input, result) = unsafe { pwasm_std::parse_args(descriptor) };
+/// 	let echo: Vec<u8> = input.to_vec();
+/// 	result.done(echo);
+/// }
+/// ```
+///
 pub unsafe fn parse_args(ptr: *mut u8) -> (WrappedArgs, WrappedResult) {
 	let desc = ptr as *mut Descriptor;
 	let args = WrappedArgs { desc: desc };
