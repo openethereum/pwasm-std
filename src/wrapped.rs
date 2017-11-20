@@ -23,7 +23,7 @@ struct Descriptor {
 ///
 /// fn takes_slice(input: &[u8]) {
 /// 	// ...
-/// # input.len(); // to silence unused var warnings
+/// 	# input.len(); // to silence unused var warnings
 /// }
 ///
 /// #[no_mangle]

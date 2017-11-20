@@ -10,9 +10,9 @@
 //! # // We can't use original definitions of storage::read/write
 //! # // because they require externs to be defined.
 //! # mod storage {
-//! # use pwasm_std::hash::H256;
-//! # pub fn read(key: &H256) -> [u8; 32] { [0u8; 32] }
-//! # pub fn write(key: &H256, val: &[u8; 32]) { }
+//! 	# use pwasm_std::hash::H256;
+//! 	# pub fn read(key: &H256) -> [u8; 32] { [0u8; 32] }
+//! 	# pub fn write(key: &H256, val: &[u8; 32]) { }
 //! # }
 //!
 //! let _ = storage::write(&H256::from([1u8; 32]), &[1u8; 32]);
