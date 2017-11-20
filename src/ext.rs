@@ -2,6 +2,7 @@ use hash::H256;
 use bigint::U256;
 use hash::Address;
 
+/// Generic wasm error
 #[derive(Debug)]
 pub struct Error;
 
@@ -81,14 +82,17 @@ mod external {
     }
 }
 
+/// Suicide
 pub fn suicide(refund: &Address) -> ! {
     unsafe { external::suicide(refund.as_ptr()); }
 }
 
+/// Balance
 pub fn balance(address: &Address) -> U256 {
     unsafe { fetch_u256(|x| external::balance(address.as_ptr(), x) ) }
 }
 
+/// Create
 pub fn create(endowment: U256, code: &[u8]) -> Result<Address, Error> {
     let mut endowment_arr = [0u8; 32];
     endowment.to_big_endian(&mut endowment_arr);
@@ -102,6 +106,7 @@ pub fn create(endowment: U256, code: &[u8]) -> Result<Address, Error> {
     }
 }
 
+/// Call
 pub fn call(address: &Address, value: U256, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     let mut value_arr = [0u8; 32];
     value.to_big_endian(&mut value_arr);
@@ -113,6 +118,7 @@ pub fn call(address: &Address, value: U256, input: &[u8], result: &mut [u8]) -> 
     }
 }
 
+/// Call code
 pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::dcall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
@@ -122,6 +128,7 @@ pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(
     }
 }
 
+/// Static call
 pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::scall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
@@ -131,6 +138,7 @@ pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result
     }
 }
 
+/// Block hash
 pub fn block_hash(block_number: u64) -> Result<H256, Error> {
     let mut res = H256::zero();
     unsafe {
@@ -153,42 +161,52 @@ unsafe fn fetch_u256<F>(f: F) -> U256 where F: Fn(*mut u8) {
     U256::from_big_endian(&res)
 }
 
+/// Coinbase
 pub fn coinbase() -> Address {
     unsafe { fetch_address(|x| external::coinbase(x) ) }
 }
 
+/// Timestamp
 pub fn timestamp() -> u64 {
     unsafe { external::timestamp() as u64 }
 }
 
+/// Block number
 pub fn block_number() -> u64 {
     unsafe { external::blocknumber()  as u64 }
 }
 
+/// Difficulty
 pub fn difficulty() -> U256 {
     unsafe { fetch_u256(|x| external::difficulty(x) ) }
 }
 
+/// Gas limit
 pub fn gas_limit() -> U256 {
     unsafe { fetch_u256(|x| external::gaslimit(x) ) }
 }
 
+/// Sender
 pub fn sender() -> Address {
     unsafe { fetch_address(|x| external::sender(x) ) }
 }
 
+/// Origin
 pub fn origin() -> Address {
     unsafe { fetch_address(|x| external::origin(x) ) }
 }
 
+/// Value
 pub fn value() -> U256 {
     unsafe { fetch_u256(|x| external::value(x) ) }
 }
 
+/// Address
 pub fn address() -> Address {
     unsafe { fetch_address(|x| external::address(x) ) }
 }
 
+/// Log
 pub fn log(topics: &[H256], data: &[u8]) {
     unsafe { external::elog(topics.as_ptr() as *const u8, topics.len() as u32, data.as_ptr(), data.len() as u32); }
 }

@@ -9,6 +9,7 @@ struct Descriptor {
 	result_len: usize,
 }
 
+/// Wrapped args
 pub struct WrappedArgs {
 	desc: *const Descriptor
 }
@@ -35,11 +36,13 @@ impl AsRef<[u8]> for WrappedArgs {
 	}
 }
 
+/// Wrapped result
 pub struct WrappedResult {
 	desc: *mut Descriptor
 }
 
 impl WrappedResult {
+	/// Finalize writing result into the descriptor
 	pub fn done(self, val: Vec<u8>) {
 		unsafe {
 			if !val.is_empty() {
@@ -53,6 +56,7 @@ impl WrappedResult {
 	}
 }
 
+/// Parse decriptor into wrapped args and result
 pub unsafe fn parse_args(ptr: *mut u8) -> (WrappedArgs, WrappedResult) {
 	let desc = ptr as *mut Descriptor;
 	let args = WrappedArgs { desc: desc };
