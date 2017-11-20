@@ -1,5 +1,8 @@
+//! Storage extensions for pwasm-std
+
 use hash::H256;
 
+/// Storage error
 #[derive(Debug)]
 pub struct Error;
 
@@ -8,6 +11,7 @@ extern {
     fn storage_read(key: *const u8, dst: *mut u8) -> i32;
     fn storage_write(key: *const u8, src: *const u8) -> i32;
 }
+
 /// Performs read from storage
 /// Can return `Error` if data is read from outside of the storage boundaries
 pub fn read(key: &H256) -> Result<[u8; 32], Error> {

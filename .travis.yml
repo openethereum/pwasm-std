@@ -16,3 +16,10 @@ script:
   - cargo check --verbose --features strict,std,panic_with_msg
   - docker exec -it emscripten sh -c "cargo install --git https://github.com/paritytech/wasm-utils wasm-build"
   - docker exec -it emscripten sh -c "cd demo && ./build.sh"
+
+after_success: |
+    cargo doc \
+    && echo '<meta http-equiv=refresh content=0;url=pwasm_std/index.html>' > target/doc/index.html && \
+    sudo pip install ghp-import && \
+    ghp-import -n target/doc && \
+    git push -qf https://${TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages

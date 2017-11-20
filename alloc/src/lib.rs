@@ -1,3 +1,4 @@
+#![cfg_attr(feature = "strict", warn(missing_docs))]
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![no_std]
 #![crate_type = "rlib"]
@@ -5,11 +6,14 @@
 #![feature(alloc)]
 #![feature(allocator_api)]
 
+//! Custom allocator crate for wasm
+
 extern crate alloc;
 extern crate wasm_libc;
 
 use alloc::heap::{Alloc, Layout, AllocErr};
 
+/// Wasm allocator
 pub struct WasmAllocator;
 
 unsafe impl<'a> Alloc for &'a WasmAllocator {
