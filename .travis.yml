@@ -1,23 +1,29 @@
 language: rust
-
 rust:
-  - nightly
+- nightly
 sudo: required
 services:
-  - docker
+- docker
 before_install:
-  - docker run -dit --name emscripten -v $(pwd):/src alexfro/rust-wasm32-unknown-emscripten bash
+- docker run -dit --name emscripten -v $(pwd):/src alexfro/rust-wasm32-unknown-emscripten
+  bash
 script:
-  - cargo build --features strict,std
-  - cargo check --verbose --features strict
-  - cargo check --verbose --features strict,panic_with_msg
-  - cargo check --verbose --features strict,std,panic_with_msg
-  - docker exec -it emscripten sh -c "cargo install --git https://github.com/paritytech/wasm-utils wasm-build"
-  - docker exec -it emscripten sh -c "cd demo && ./build.sh"
-
-after_success: |
-    cargo doc \
-    && echo '<meta http-equiv=refresh content=0;url=pwasm_std/index.html>' > target/doc/index.html && \
-    sudo pip install ghp-import && \
-    ghp-import -n target/doc && \
-    git push -qf https://${TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+- cargo build --features strict,std
+- cargo check --verbose --features strict
+- cargo check --verbose --features strict,panic_with_msg
+- cargo check --verbose --features strict,std,panic_with_msg
+- docker exec -it emscripten sh -c "cargo install --git https://github.com/paritytech/wasm-utils
+  wasm-build"
+- docker exec -it emscripten sh -c "cd demo && ./build.sh"
+after_success: |-
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  [ $TRAVIS_RUST_VERSION = stable ] &&
+  cargo doc \
+  && echo '<meta http-equiv=refresh content=0;url=pwasm_std/index.html>' > target/doc/index.html && \
+  sudo pip install ghp-import && \
+  ghp-import -n target/doc && \
+  git push -qf https://${TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+env:
+  global:
+    secure: v1mjxkYgyCSO4pt7H1BuU3U8EpT7fVI1JJGja0/t45LgoFTUFd5MVY582Z+P2brdHzdjoenPVKfQB64oNrhpF/gRgBWHdprE+3MpUBCVpayecJPEbPycDNas8wFLrEvGhWzOkYP84ShtLuTnk6XlWtXtLYlXel834V/qz0nBmRR7ZvaAQ1dqCgxUDpXzPoM8aYU4PbWhnXB96dubd91wfucUYmiRB6LuzFbUz0qd46Gliz3R574xnx8BPVEb7azpLOrmWspmY8PhRTMdyjFWIGeKLC30O7z69azcMvmfWYeX8OHn2Ctv4o17+FZGTnx6r5sgNBCzWLo9VBB4191g7DRqsVbSMD7z+9LMczEZvVmbwqkAmXQK2zOjcSs1zrP/TmXXpOYvOZXVSele+EdUR9X6G+9Efw98l8Y7pFlWG1OOBEEuh2R5kQ96AOjTcbbbAUEY4bDV54qDaZiFQwjSl1KloL3eKJHWOYmAVqUurVmA7/SMk8bbnlivnWsDdRKm3IymasCtjR2K5rGxDAL6ATJH1kQOj9Jsg060dwHzhe2OYbRR0u3LGLD+XvRsgQZESHqi4SOpMOyx7ywXe2aBbOfuuS6l2g99bdCAU86DXwTpBrwX9y+eqa8JlBwN4t8Ip9lrhev8thFZz5FLDXhfU9wGZnuTKymEAGzoeySWurw=
