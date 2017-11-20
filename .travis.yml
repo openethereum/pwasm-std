@@ -9,8 +9,6 @@ before_install:
   - docker run -dit --name emscripten -v $(pwd):/src alexfro/rust-wasm32-unknown-emscripten bash
 script:
   - cargo build --features strict,std
-  - cargo build --verbose --features strict --manifest-path=alloc/Cargo.toml
-  - cargo build --verbose --features strict --manifest-path=libc/Cargo.toml
   - cargo check --verbose --features strict
   - cargo check --verbose --features strict,panic_with_msg
   - cargo check --verbose --features strict,std,panic_with_msg
