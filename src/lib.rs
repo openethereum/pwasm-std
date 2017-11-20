@@ -46,20 +46,19 @@ pub use alloc::str;
 pub use alloc::vec::Vec;
 pub use parity_hash as hash;
 
-/// Wrapper over storage read/write externs
-/// Storage api is a key-value storage where both key and value are 32 bytes in len
+// Wrapper over storage read/write externs
 pub mod storage;
 
-/// Safe wrapper around debug logging
+// Safe wrapper around debug logging
 pub mod logger;
 
-/// Safe wrapper around externalities invokes
+// Safe wrapper around externalities invokes
 pub mod ext;
 
-/// Wrapper for arguments and result
+// Wrapper for arguments and result
 mod wrapped;
 
-/// Crypto functions
+// Crypto functions
 mod crypto;
 
 mod panic;

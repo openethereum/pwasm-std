@@ -1,3 +1,5 @@
+//! Safe wrapper around externalities invokes.
+
 use hash::H256;
 use bigint::U256;
 use hash::Address;
@@ -82,17 +84,25 @@ mod external {
     }
 }
 
-/// Suicide
+/// Halt execution and register account for deletion.
+///
+/// Value of the current account will be tranfered to `refund` address.
 pub fn suicide(refund: &Address) -> ! {
     unsafe { external::suicide(refund.as_ptr()); }
 }
 
-/// Balance
+/// Returns balance of the given address.
 pub fn balance(address: &Address) -> U256 {
     unsafe { fetch_u256(|x| external::balance(address.as_ptr(), x) ) }
 }
 
-/// Create
+/// Create a new account with the given code.
+///
+/// # Errors
+///
+/// Returns [`Error`] in case contract constructor failed.
+///
+/// [`Error`]: struct.Error.html
 pub fn create(endowment: U256, code: &[u8]) -> Result<Address, Error> {
     let mut endowment_arr = [0u8; 32];
     endowment.to_big_endian(&mut endowment_arr);
@@ -106,7 +116,7 @@ pub fn create(endowment: U256, code: &[u8]) -> Result<Address, Error> {
     }
 }
 
-/// Call
+/// Message-call into an account.
 pub fn call(address: &Address, value: U256, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     let mut value_arr = [0u8; 32];
     value.to_big_endian(&mut value_arr);
@@ -118,7 +128,12 @@ pub fn call(address: &Address, value: U256, input: &[u8], result: &mut [u8]) -> 
     }
 }
 
-/// Call code
+/// Like [`call`], but with code at the given `address`.
+///
+/// Effectively this function is like calling current account but with
+/// different code (i.e. like `DELEGATECALL` EVM instruction).
+///
+/// [`call`]: fn.call.html
 pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::dcall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
@@ -128,7 +143,9 @@ pub fn call_code(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(
     }
 }
 
-/// Static call
+/// Like [`call`], but this call and any of it's subcalls are disallowed to modify any storage.
+///
+/// [`call`]: fn.call.html
 pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result<(), Error> {
     unsafe {
         match external::scall(address.as_ptr(), input.as_ptr(), input.len() as u32, result.as_mut_ptr(), result.len() as u32) {
@@ -138,7 +155,12 @@ pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result
     }
 }
 
-/// Block hash
+/// Returns the hash of one of the 256 most recent complete blocks.
+///
+/// # Errors
+///
+/// In fact, this function doesn't return an error. In case of error this
+/// function will return `H256::zero()`.
 pub fn block_hash(block_number: u64) -> Result<H256, Error> {
     let mut res = H256::zero();
     unsafe {
@@ -161,52 +183,69 @@ unsafe fn fetch_u256<F>(f: F) -> U256 where F: Fn(*mut u8) {
     U256::from_big_endian(&res)
 }
 
-/// Coinbase
+/// Get the block’s beneficiary address (i.e miner's account address).
 pub fn coinbase() -> Address {
     unsafe { fetch_address(|x| external::coinbase(x) ) }
 }
 
-/// Timestamp
+/// Get the block's timestamp.
+///
+/// It can be viewed as an output of Unix's `time()` function at
+/// current block's inception.
 pub fn timestamp() -> u64 {
     unsafe { external::timestamp() as u64 }
 }
 
-/// Block number
+/// Get the block's number.
+///
+/// This value represents number of ancestor blocks.
+/// The genesis block has a number of zero.
 pub fn block_number() -> u64 {
     unsafe { external::blocknumber()  as u64 }
 }
 
-/// Difficulty
+/// Get the block's difficulty.
 pub fn difficulty() -> U256 {
     unsafe { fetch_u256(|x| external::difficulty(x) ) }
 }
 
-/// Gas limit
+/// Get the block's gas limit.
 pub fn gas_limit() -> U256 {
     unsafe { fetch_u256(|x| external::gaslimit(x) ) }
 }
 
-/// Sender
+/// Get caller address.
+///
+/// This is the address of the account that is directly responsible for this execution.
 pub fn sender() -> Address {
     unsafe { fetch_address(|x| external::sender(x) ) }
 }
 
-/// Origin
+/// Get execution origination address.
+///
+/// This is the sender of original transaction.
+/// It is never an account with non-empty associated code.
 pub fn origin() -> Address {
     unsafe { fetch_address(|x| external::origin(x) ) }
 }
 
-/// Value
+/// Get deposited value by the instruction/transaction responsible for this execution.
 pub fn value() -> U256 {
     unsafe { fetch_u256(|x| external::value(x) ) }
 }
 
-/// Address
+/// Get address of currently executing account.
 pub fn address() -> Address {
     unsafe { fetch_address(|x| external::address(x) ) }
 }
 
-/// Log
+/// Creates log entry with given topics and data.
+///
+/// There could be only up to 4 topics.
+///
+/// # Panics
+///
+/// If `topics` contains more than 4 elements then this function will trap.
 pub fn log(topics: &[H256], data: &[u8]) {
     unsafe { external::elog(topics.as_ptr() as *const u8, topics.len() as u32, data.as_ptr(), data.len() as u32); }
 }
