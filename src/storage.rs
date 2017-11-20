@@ -15,7 +15,7 @@
 //! 	# pub fn write(key: &H256, val: &[u8; 32]) { }
 //! # }
 //!
-//! let _ = storage::write(&H256::from([1u8; 32]), &[1u8; 32]);
+//! storage::write(&H256::from([1u8; 32]), &[1u8; 32]);
 //! let _v = storage::read(&H256::from([1u8; 32]));
 //! ```
 
