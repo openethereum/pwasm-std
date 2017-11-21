@@ -13,7 +13,7 @@ It is a limited subset of the Rust standard library, along with a custom allocat
 Just add a git dependency
 ```toml
 [dependencies]
-pwasm-std = { git = "https://github.com/paritytech/pwasm-std" }
+pwasm-std = "0.1"
 ```
 
 The crate is supposed to be used on nightly Rust only, until the custom allocator api stablizes in Rust.
