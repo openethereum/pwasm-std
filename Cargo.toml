@@ -10,7 +10,7 @@ documentation = "https://paritytech.github.io/pwasm-std/pwasm_std/"
 description = "Parity WebAssembly standard library for contract development"
 keywords = ["wasm", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
-exclude = [ "res/*", "demo/*" ]
+exclude = [ "demo/*" ]
 
 [dependencies]
 pwasm-alloc = { path = "alloc", version = "0.1" }
