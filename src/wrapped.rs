@@ -73,7 +73,17 @@ impl WrappedResult {
 	/// ```rust,no_run
 	/// # use pwasm_std::parse_args;
 	/// # let result = unsafe { parse_args(::std::ptr::null_mut()).1 };
-	/// result.done(&[0, 1, 2, 3]);
+	/// let data: Vec<u8> = vec![0, 1, 2, 3];
+	/// result.done(data);
+	/// ```
+	///
+	/// You can also return static data.
+	///
+	/// ```rust,no_run
+	/// # use pwasm_std::parse_args;
+	/// # let result = unsafe { parse_args(::std::ptr::null_mut()).1 };
+	/// let data: &'static [u8] = &[0, 1, 2, 3];
+	/// result.done(data);
 	/// ```
 	pub fn done<T: AsRef<[u8]>>(self, val: T) -> ! {
 		let result = val.as_ref();
