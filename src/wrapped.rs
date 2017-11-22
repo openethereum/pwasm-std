@@ -1,5 +1,5 @@
-use core::{slice, mem, ops};
-use Vec;
+use core::{slice, ops};
+use ext;
 
 #[repr(C)]
 struct Descriptor {
@@ -63,22 +63,32 @@ impl AsRef<[u8]> for WrappedArgs {
 /// Writeable handle of execution results.
 ///
 /// You can use this handle to write execution results of your contract.
-pub struct WrappedResult {
-	desc: *mut Descriptor
-}
+pub struct WrappedResult;
 
 impl WrappedResult {
 	/// Finalize writing result into the descriptor
-	pub fn done(self, val: Vec<u8>) {
-		unsafe {
-			if !val.is_empty() {
-				(*self.desc).result_ptr = val.as_ptr();
-				(*self.desc).result_len = val.len();
-			} else {
-				(*self.desc).result_len = 0;
-			}
-		}
-		mem::forget(val);
+	///
+	/// # Examples
+	///
+	/// ```rust,no_run
+	/// # use pwasm_std::parse_args;
+	/// # let result = unsafe { parse_args(::std::ptr::null_mut()).1 };
+	/// let data: Vec<u8> = vec![0, 1, 2, 3];
+	/// result.done(data);
+	/// ```
+	///
+	/// You can also return static data.
+	///
+	/// ```rust,no_run
+	/// # use pwasm_std::parse_args;
+	/// # let result = unsafe { parse_args(::std::ptr::null_mut()).1 };
+	/// let data: &'static [u8] = &[0, 1, 2, 3];
+	/// result.done(data);
+	/// ```
+	pub fn done<T: AsRef<[u8]>>(self, val: T) -> ! {
+		let result = val.as_ref();
+		ext::return_(result);
+		// Control flow can't get here so `val` doesn't get dropped.
 	}
 }
 
@@ -102,6 +112,6 @@ impl WrappedResult {
 pub unsafe fn parse_args(ptr: *mut u8) -> (WrappedArgs, WrappedResult) {
 	let desc = ptr as *mut Descriptor;
 	let args = WrappedArgs { desc: desc };
-	let result = WrappedResult { desc: desc };
+	let result = WrappedResult;
 	(args, result)
 }

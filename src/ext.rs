@@ -11,16 +11,6 @@ pub struct Error;
 mod external {
 
     #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-        pub fn suicide(refund: *const u8) -> !;
-    }
-
-    #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-        pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
-    }
-
-    #[cfg_attr(not(feature="std"), link(name = "env"))]
     extern "C" {
         // Various call variants
 
@@ -81,6 +71,13 @@ mod external {
         pub fn origin(dest: *mut u8);
 
         pub fn elog(topic_ptr: *const u8, topic_count: u32, data_ptr: *const u8, data_len: u32);
+
+		pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
+
+		#[link_name = "return"]
+		pub fn return_(result_ptr: *const u8, result_len: usize) -> !;
+
+		pub fn suicide(refund: *const u8) -> !;
     }
 }
 
@@ -248,4 +245,9 @@ pub fn address() -> Address {
 /// If `topics` contains more than 4 elements then this function will trap.
 pub fn log(topics: &[H256], data: &[u8]) {
     unsafe { external::elog(topics.as_ptr() as *const u8, topics.len() as u32, data.as_ptr(), data.len() as u32); }
+}
+
+/// Halt execution returning output data.
+pub fn return_(data: &[u8]) -> ! {
+	unsafe { external::return_(data.as_ptr(), data.len()) }
 }
