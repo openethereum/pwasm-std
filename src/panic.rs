@@ -10,31 +10,67 @@ pub fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, co
 	}
 
 	#[cfg(feature = "panic_with_msg")]
-	let message = format!("{}", _fmt);
+	let msg = format!("{}", _fmt);
 
 	#[cfg(not(feature = "panic_with_msg"))]
-	let message = ::alloc::String::new();
+	let msg = ::alloc::String::new();
 
-	let mut payload = Vec::with_capacity(message.as_bytes().len() + file.as_bytes().len() + 8);
-	write_str(&mut payload, message.as_bytes());
-	write_str(&mut payload, file.as_bytes());
-	write_u32(&mut payload, line);
-	write_u32(&mut payload, col);
+	let mut sink = Sink::new(
+		4 + msg.as_bytes().len() +		// len + [msg]
+		4 + file.as_bytes().len() +		// len + [file]
+		4 +								// line
+		4								// col
+	);
+	sink.write_str(msg.as_bytes());
+	sink.write_str(file.as_bytes());
+	sink.write_u32(line);
+	sink.write_u32(col);
 
 	unsafe {
-		panic(payload.as_ptr(), payload.len() as u32);
+		panic(sink.as_ptr(), sink.len() as u32);
 	}
 }
 
-fn write_u32(payload: &mut Vec<u8>, val: u32) {
-	let mut val_bytes = [0u8; 4];
-	LittleEndian::write_u32(&mut val_bytes, val);
-	payload.extend(&val_bytes);
+struct Sink {
+	buf: Vec<u8>,
+	pos: usize
 }
 
-fn write_str(payload: &mut Vec<u8>, bytes: &[u8]) {
-	write_u32(payload, bytes.len() as u32);
-	payload.extend(bytes);
+impl Sink {
+	#[inline(always)]
+	fn new(capacity: usize) -> Sink {
+		let mut buf = Vec::with_capacity(capacity);
+		buf.resize(capacity, 0);
+		Sink {
+			buf: buf,
+			pos: 0,
+		}
+	}
+
+	#[inline(always)]
+	fn reserve(&mut self, len: usize) -> &mut [u8] {
+		let dst = &mut self.buf[self.pos..self.pos+len];
+		self.pos += len;
+		dst
+	}
+
+	#[inline(always)]
+	fn write_u32(&mut self, val: u32) {
+		LittleEndian::write_u32(self.reserve(4), val);
+	}
+
+	#[inline(always)]
+	fn write_str(&mut self, bytes: &[u8]) {
+		self.write_u32(bytes.len() as u32);
+		self.reserve(bytes.len()).copy_from_slice(bytes)
+	}
+}
+
+impl ::core::ops::Deref for Sink {
+	type Target = [u8];
+	fn deref(&self) -> &[u8] {
+		&self.buf
+	}
 }
 
 #[lang = "eh_personality"]
