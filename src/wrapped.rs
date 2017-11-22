@@ -40,7 +40,7 @@ pub struct WrappedArgs {
 
 impl ops::Deref for WrappedArgs {
 	type Target = [u8];
-    fn deref(&self) -> &Self::Target {
+	fn deref(&self) -> &Self::Target {
 		unsafe {
 			let ptr = (*self.desc).args_ptr;
 			let len = (*self.desc).args_len;
