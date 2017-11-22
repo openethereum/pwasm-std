@@ -11,16 +11,6 @@ pub struct Error;
 mod external {
 
     #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-        pub fn suicide(refund: *const u8) -> !;
-    }
-
-    #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-        pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
-    }
-
-    #[cfg_attr(not(feature="std"), link(name = "env"))]
     extern "C" {
         // Various call variants
 
@@ -58,7 +48,7 @@ mod external {
         // enviromental blockchain functions (runtume might not provide all of these!)
 
         /// Block hash of the specific block
-        pub fn blockhash(number: i64, dest: *mut u8) -> i32;
+        pub fn blockhash(number: i64, dest: *mut u8);
 
         pub fn balance(address: *const u8, dest: *mut u8);
 
@@ -81,6 +71,10 @@ mod external {
         pub fn origin(dest: *mut u8);
 
         pub fn elog(topic_ptr: *const u8, topic_count: u32, data_ptr: *const u8, data_len: u32);
+
+        pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
+
+        pub fn suicide(refund: *const u8) -> !;
     }
 }
 
@@ -156,19 +150,12 @@ pub fn static_call(address: &Address, input: &[u8], result: &mut [u8]) -> Result
 }
 
 /// Returns the hash of one of the 256 most recent complete blocks.
-///
-/// # Errors
-///
-/// In fact, this function doesn't return an error. In case of error this
-/// function will return `H256::zero()`.
-pub fn block_hash(block_number: u64) -> Result<H256, Error> {
+pub fn block_hash(block_number: u64) -> H256 {
     let mut res = H256::zero();
     unsafe {
-        match external::blockhash(block_number as i64, res.as_mut_ptr()) {
-            0 => Ok(res),
-            _ => Err(Error),
-        }
+        external::blockhash(block_number as i64, res.as_mut_ptr())
     }
+    res
 }
 
 unsafe fn fetch_address<F>(f: F) -> Address where F: Fn(*mut u8) {
