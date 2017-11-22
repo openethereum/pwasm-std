@@ -11,16 +11,6 @@ pub struct Error;
 mod external {
 
     #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-        pub fn suicide(refund: *const u8) -> !;
-    }
-
-    #[cfg_attr(not(feature="std"), link(name = "env"))]
-    extern {
-        pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
-    }
-
-    #[cfg_attr(not(feature="std"), link(name = "env"))]
     extern "C" {
         // Various call variants
 
@@ -81,6 +71,10 @@ mod external {
         pub fn origin(dest: *mut u8);
 
         pub fn elog(topic_ptr: *const u8, topic_count: u32, data_ptr: *const u8, data_len: u32);
+
+        pub fn create(endowment: *const u8, code_ptr: *const u8, code_len: u32, result_ptr: *mut u8) -> i32;
+
+        pub fn suicide(refund: *const u8) -> !;
     }
 }
 
