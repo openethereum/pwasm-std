@@ -17,13 +17,13 @@ use alloc::heap::{Alloc, Layout, AllocErr};
 pub struct WasmAllocator;
 
 unsafe impl<'a> Alloc for &'a WasmAllocator {
-    unsafe fn alloc(&mut self, layout: Layout) -> Result<*mut u8, AllocErr> {
-        Ok(pwasm_libc::malloc(layout.size()))
-    }
+	unsafe fn alloc(&mut self, layout: Layout) -> Result<*mut u8, AllocErr> {
+		Ok(pwasm_libc::malloc(layout.size()))
+	}
 
-    unsafe fn dealloc(&mut self, ptr: *mut u8, _layout: Layout) {
-        pwasm_libc::free(ptr)
-    }
+	unsafe fn dealloc(&mut self, ptr: *mut u8, _layout: Layout) {
+		pwasm_libc::free(ptr)
+	}
 }
 
 #[global_allocator]
