@@ -15,7 +15,12 @@ pub fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, co
 	#[cfg(not(feature = "panic_with_msg"))]
 	let msg = ::alloc::String::new();
 
-	let mut sink = Sink::new(msg.as_bytes().len() + file.as_bytes().len() + 8);
+	let mut sink = Sink::new(
+		4 + msg.as_bytes().len() +		// len + [msg]
+		4 + file.as_bytes().len() +		// len + [file]
+		4 +								// line
+		4								// col
+	);
 	sink.write_str(msg.as_bytes());
 	sink.write_str(file.as_bytes());
 	sink.write_u32(line);
@@ -34,8 +39,10 @@ struct Sink {
 impl Sink {
 	#[inline(always)]
 	fn new(capacity: usize) -> Sink {
+		let mut buf = Vec::with_capacity(capacity);
+		buf.resize(capacity, 0);
 		Sink {
-			buf: Vec::with_capacity(capacity),
+			buf: buf,
 			pos: 0,
 		}
 	}
