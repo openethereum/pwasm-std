@@ -35,3 +35,26 @@ pub fn write(key: &H256, val: &[u8; 32]) {
 		storage_write(key.as_ptr(), val.as_ptr());
 	}
 }
+
+pub trait ToKey {
+    fn to_key(&self) -> H256;
+}
+
+impl<T1: AsRef<[u8]>, T2: AsRef<[u8]>> ToKey for (T1, T2) {
+    fn to_key(&self) -> H256 {
+        let mut keccak = ::tiny_keccak::Keccak::new_keccak256();
+        let mut res = H256::new();
+        keccak.update(self.0.as_ref());
+        keccak.update(self.1.as_ref());
+        keccak.finalize(&mut res);
+        res
+     }
+}
+
+#[test]
+fn two_keys() {
+    write(
+        &(::parity_hash::Address::zero(), ::parity_hash::Address::zero()).to_key(),
+        &Default::default(),
+    )
+}
