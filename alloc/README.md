@@ -1,6 +1,6 @@
-# pwasm-libc
+# pwasm-alloc
 
-Parity WASM contracts standard library libc bindings
+Parity WASM contracts standard library allocator
 
 [Documentation](https://paritytech.github.io/pwasm-std/pwasm_alloc/)
 
