@@ -1,4 +1,4 @@
-//! Standard library for parity wasm contracts
+//! Standard library for parity wasm programs
 
 #![cfg_attr(not(feature="std"), no_std)]
 #![warn(missing_docs)]
