@@ -8,7 +8,6 @@
 #![feature(alloc)]
 #![feature(macro_reexport)]
 
-
 #[cfg(feature="std")]
 extern crate core;
 
@@ -34,7 +33,6 @@ cfg_if! {
 
 extern crate byteorder;
 
-pub extern crate bigint;
 pub extern crate parity_hash;
 extern crate tiny_keccak;
 
@@ -46,14 +44,8 @@ pub use alloc::str;
 pub use alloc::vec::Vec;
 pub use parity_hash as hash;
 
-// Wrapper over storage read/write externs
-pub mod storage;
-
 // Safe wrapper around debug logging
 pub mod logger;
-
-// Safe wrapper around externalities invokes
-pub mod ext;
 
 // Wrapper for arguments and result
 mod wrapped;
