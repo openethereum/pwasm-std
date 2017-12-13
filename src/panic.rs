@@ -3,8 +3,10 @@
 use Vec;
 use byteorder::{LittleEndian, ByteOrder};
 
+/// Overrides the default panic_fmt
+#[no_mangle]
 #[lang = "panic_fmt"]
-pub fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
+pub extern fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
 	extern "C" {
 		fn panic(payload_ptr: *const u8, payload_len: u32) -> !;
 	}

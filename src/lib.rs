@@ -63,6 +63,9 @@ mod crypto;
 
 mod panic;
 
+#[cfg(not(feature="std"))]
+pub use panic::panic_fmt;
+
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
 
