@@ -5,6 +5,7 @@
 //! libc externs crate
 
 extern "C" {
+	fn ext_memcmp(cx: *const u8, ct: *const u8, n: usize) -> i32;
 	fn ext_memcpy(dest: *mut u8, src: *const u8, n: usize) -> *mut u8;
 	fn ext_memmove(dest: *mut u8, src: *const u8, n: usize) -> *mut u8;
 	fn ext_memset(dest: *mut u8, c: i32, n: usize) -> *mut u8;
@@ -14,6 +15,12 @@ extern "C" {
 
 // Declaring these function here prevents Emscripten from including it's own verisons
 // into final binary.
+
+/// memcmp extern
+#[no_mangle]
+pub unsafe extern "C" fn memcmp(cx: *const u8, ct: *const u8, n: usize) -> i32 {
+	ext_memcmp(cx, ct, n)
+}
 
 /// memcpy extern
 #[no_mangle]
