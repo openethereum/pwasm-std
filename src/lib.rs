@@ -55,6 +55,7 @@ mod crypto;
 
 mod panic;
 
+#[no_mangle]
 #[cfg(not(feature="std"))]
 pub use panic::panic_fmt;
 

@@ -3,19 +3,27 @@
 use Vec;
 use byteorder::{LittleEndian, ByteOrder};
 
+extern "C" {
+	fn panic(payload_ptr: *const u8, payload_len: u32) -> !;
+}
+
+#[cfg(not(feature = "panic_with_msg"))]
+#[no_mangle]
+#[lang = "panic_fmt"]
+pub extern fn panic_fmt() -> ! {
+	let msg = "Panic has occurred in Wasm module. Build Wasm with a 'panic_with_msg' feature for details";
+	unsafe {
+		panic(msg.as_ptr(), msg.len() as u32);
+	}
+}
+
 /// Overrides the default panic_fmt
+#[cfg(feature = "panic_with_msg")]
 #[no_mangle]
 #[lang = "panic_fmt"]
 pub extern fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
-	extern "C" {
-		fn panic(payload_ptr: *const u8, payload_len: u32) -> !;
-	}
 
-	#[cfg(feature = "panic_with_msg")]
 	let msg = format!("{}", _fmt);
-
-	#[cfg(not(feature = "panic_with_msg"))]
-	let msg = ::alloc::String::new();
 
 	let mut sink = Sink::new(
 		4 + msg.as_bytes().len() +		// len + [msg]
