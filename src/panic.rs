@@ -9,9 +9,8 @@ extern "C" {
 #[no_mangle]
 #[lang = "panic_fmt"]
 pub extern fn panic_fmt() -> ! {
-	let msg = "Panic has occurred in Wasm module. Build Wasm with a 'panic_with_msg' feature for details";
 	unsafe {
-		panic(msg.as_ptr(), msg.len() as u32);
+		panic(::core::ptr::null(), 0u32);
 	}
 }
 
