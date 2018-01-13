@@ -8,9 +8,9 @@ Parity WASM contracts standard library for Rust
 
 It is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
 
-## use
+## Use
 
-Just add a git dependency
+Just add a dependency
 ```toml
 [dependencies]
 pwasm-std = "0.3"
