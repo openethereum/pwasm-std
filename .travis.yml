@@ -1,20 +1,15 @@
 language: rust
 rust:
 - nightly
-sudo: required
-services:
-- docker
-before_install:
-- docker run -dit --name emscripten -v $(pwd):/src alexfro/rust-wasm32-unknown-emscripten
-  bash
+install:
+- rustup target add wasm32-unknown-unknown
+- cargo install --git https://github.com/paritytech/wasm-utils wasm-build
 script:
 - cargo test --features std,strict
 - cargo check --verbose --features strict
 - cargo check --verbose --features strict,panic_with_msg
 - cargo check --verbose --features strict,std,panic_with_msg
-- docker exec -it emscripten sh -c "cargo install --git https://github.com/paritytech/wasm-utils
-  wasm-build"
-- docker exec -it emscripten sh -c "cd demo && ./build.sh"
+- cd demo && ./build.sh
 after_success: |
   [ $TRAVIS_BRANCH = master ] &&
   [ $TRAVIS_PULL_REQUEST = false ] &&
