@@ -1,8 +1,7 @@
 [package]
-name = "wasm-std-demo"
+name = "wasm-demo"
 version = "0.0.0"
 authors = ["NikVolf <nikvolf@gmail.com>"]
-target-dir = "wasm"
 
 [dependencies]
 pwasm-std = { path = "../" }
