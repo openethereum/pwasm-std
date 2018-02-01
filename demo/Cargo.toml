@@ -7,9 +7,9 @@ target-dir = "wasm"
 [dependencies]
 pwasm-std = { path = "../" }
 
-[[bin]]
-name = "wasm-demo"
-path = "src/main.rs"
+[lib]
+path = "src/demo.rs"
+crate-type = ["cdylib"]
 
 [profile.release]
 panic = "abort"
