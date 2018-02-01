@@ -12,7 +12,7 @@ keywords = ["wasm", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
 
 [dependencies]
-pwasm-libc = { path = "../libc", version = "0.1" }
+wee_alloc = { git = "https://github.com/fitzgen/wee_alloc.git", rev = "05d369a" }
 
 [features]
 strict = []
