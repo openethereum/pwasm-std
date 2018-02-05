@@ -12,7 +12,7 @@ keywords = ["wasm", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
 
 [dependencies]
-wee_alloc = { git = "https://github.com/fitzgen/wee_alloc.git", rev = "05d369a" }
+wee_alloc = "0.1.0"
 
 [features]
 strict = []
