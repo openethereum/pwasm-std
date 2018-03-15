@@ -1,5 +1,0 @@
-[build]
-target-dir = "./target/wasm"
-
-[target.wasm32-unknown-emscripten]
-linker = "./linker.sh"
