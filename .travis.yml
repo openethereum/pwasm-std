@@ -3,11 +3,11 @@ rust:
 - nightly
 install:
 - rustup target add wasm32-unknown-unknown
-- cargo install --git https://github.com/paritytech/wasm-utils wasm-build
+- cargo install --git https://github.com/paritytech/wasm-utils --bin wasm-build
 script:
 - cargo test --features std,strict
-- cargo check --verbose --features strict
-- cargo check --verbose --features strict,panic_with_msg
+- cargo check --target wasm32-unknown-unknown --verbose --features strict
+- cargo check --target wasm32-unknown-unknown --verbose --features strict,panic_with_msg
 - cargo check --verbose --features strict,std,panic_with_msg
 - cd demo && ./build.sh
 after_success: |
