@@ -6,7 +6,9 @@ Parity WASM contracts standard library for Rust
 
 [Documentation](https://paritytech.github.io/pwasm-std/pwasm_std/)
 
-It is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
+[Parity Wasm Tutorial](https://github.com/paritytech/pwasm-tutorial) - a full fledged tutorial on how to write contracts in Webassembly for Kovan and other Wasm-enabled networks.
+
+`pwasm-std` is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
 
 ## Use
 
