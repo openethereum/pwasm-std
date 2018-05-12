@@ -12,7 +12,7 @@ keywords = ["wasm", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
 
 [dependencies]
-wee_alloc = "0.2"
+wee_alloc = "0.4"
 
 [features]
 strict = []
