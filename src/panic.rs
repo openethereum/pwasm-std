@@ -84,3 +84,13 @@ pub extern fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: 
 
 #[lang = "eh_personality"]
 extern "C" fn eh_personality() {}
+
+/// Overrides the default oom
+#[lang = "oom"]
+#[no_mangle]
+pub extern fn oom() -> ! {
+	extern {
+		fn oom_impl() -> !;
+	}
+	unsafe { oom_impl() }
+}

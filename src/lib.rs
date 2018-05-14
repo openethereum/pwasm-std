@@ -6,7 +6,7 @@
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
-#![feature(macro_reexport)]
+#![feature(use_extern_macros)]
 
 #[cfg(feature="std")]
 extern crate core;
@@ -23,11 +23,11 @@ extern crate cfg_if;
 cfg_if! {
 	if #[cfg(all(feature="panic_with_msg", not(feature="std")))] {
 		#[macro_use]
-		#[macro_reexport(vec, format)]
 		extern crate alloc;
+		pub use alloc::{vec, format};
 	} else {
-		#[macro_reexport(vec, format)]
 		extern crate alloc;
+		pub use alloc::{vec, format};
 	}
 }
 
@@ -58,6 +58,10 @@ mod panic;
 #[no_mangle]
 #[cfg(not(feature="std"))]
 pub use panic::panic_fmt;
+
+#[no_mangle]
+#[cfg(not(feature="std"))]
+pub use panic::oom;
 
 pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;

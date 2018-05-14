@@ -15,7 +15,7 @@ exclude = [ "demo/*" ]
 [dependencies]
 pwasm-alloc = { path = "alloc", version = "0.3" }
 pwasm-libc = { path = "libc", version = "0.2" }
-tiny-keccak = "1.3"
+tiny-keccak = "1"
 cfg-if = "0.1"
 
 [dependencies.byteorder]
