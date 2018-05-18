@@ -1,13 +1,11 @@
 #![no_std]
 
-extern crate pwasm_std;
+#[macro_use] extern crate pwasm_std;
 
 #[no_mangle]
-pub fn call(descriptor: *mut u8) {
-	let (_, result) = unsafe { pwasm_std::parse_args(descriptor) };
-
+pub fn call() {
 	pwasm_std::logger::debug("Returing hash of 'something'");
 	let hash = pwasm_std::keccak("something");
 
-	result.done(hash.to_vec());
+	pwasm_std::logger::debug(&format!("{:?}", hash.as_ref()));
 }

@@ -47,9 +47,6 @@ pub use parity_hash as hash;
 // Safe wrapper around debug logging
 pub mod logger;
 
-// Wrapper for arguments and result
-mod wrapped;
-
 // Crypto functions
 mod crypto;
 
@@ -63,7 +60,6 @@ pub use panic::panic_fmt;
 #[cfg(not(feature="std"))]
 pub use panic::oom;
 
-pub use wrapped::{WrappedArgs, WrappedResult, parse_args};
 pub use crypto::keccak;
 
 /// Read u32 using native endianness
