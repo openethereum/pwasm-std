@@ -89,8 +89,5 @@ extern "C" fn eh_personality() {}
 #[lang = "oom"]
 #[no_mangle]
 pub extern fn oom() -> ! {
-	extern {
-		fn oom_impl() -> !;
-	}
-	unsafe { oom_impl() }
+	unsafe { ::core::intrinsics::abort() }
 }

@@ -7,6 +7,7 @@
 #![feature(link_args)]
 #![feature(alloc)]
 #![feature(use_extern_macros)]
+#![feature(core_intrinsics)]
 
 #[cfg(feature="std")]
 extern crate core;
