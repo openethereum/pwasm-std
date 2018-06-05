@@ -7,8 +7,8 @@ extern "C" {
 /// Overrides the default panic_fmt
 #[cfg(not(feature = "panic_with_msg"))]
 #[no_mangle]
-#[lang = "panic_fmt"]
-pub extern fn panic_fmt() -> ! {
+#[panic_implementation]
+pub fn panic_fmt(_info: &::core::panic::PanicInfo) -> ! {
 	unsafe {
 		panic(::core::ptr::null(), 0u32);
 	}
@@ -17,27 +17,10 @@ pub extern fn panic_fmt() -> ! {
 /// Overrides the default panic_fmt
 #[cfg(feature = "panic_with_msg")]
 #[no_mangle]
-#[lang = "panic_fmt"]
-pub extern fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: u32, col: u32) -> ! {
+#[panic_implementation]
+pub fn panic_fmt(info: &::core::panic::PanicInfo) -> ! {
 	use Vec;
 	use byteorder::{LittleEndian, ByteOrder};
-
-	let msg = format!("{}", _fmt);
-
-	let mut sink = Sink::new(
-		4 + msg.as_bytes().len() +		// len + [msg]
-		4 + file.as_bytes().len() +		// len + [file]
-		4 +								// line
-		4								// col
-	);
-	sink.write_str(msg.as_bytes());
-	sink.write_str(file.as_bytes());
-	sink.write_u32(line);
-	sink.write_u32(col);
-
-	unsafe {
-		panic(sink.as_ptr(), sink.len() as u32);
-	}
 
 	struct Sink {
 		buf: Vec<u8>,
@@ -79,6 +62,32 @@ pub extern fn panic_fmt(_fmt: ::core::fmt::Arguments, file: &'static str, line: 
 		fn deref(&self) -> &[u8] {
 			&self.buf
 		}
+	}
+
+	let msg = if let Some(fmt) = info.message() {
+		format!("{}", fmt)
+	} else {
+		Default::default()
+	};
+	let (file, line, col) = if let Some(loc) = info.location() {
+		(loc.file(), loc.line(), loc.column())
+	} else {
+		("", 0, 0)
+	};
+
+	let mut sink = Sink::new(
+		4 + msg.as_bytes().len() +		// len + [msg]
+		4 + file.as_bytes().len() +		// len + [file]
+		4 +								// line
+		4								// col
+	);
+	sink.write_str(msg.as_bytes());
+	sink.write_str(file.as_bytes());
+	sink.write_u32(line);
+	sink.write_u32(col);
+
+	unsafe {
+		panic(sink.as_ptr(), sink.len() as u32)
 	}
 }
 
