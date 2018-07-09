@@ -20,19 +20,10 @@ extern crate pwasm_alloc;
 #[cfg(not(feature="std"))]
 extern crate pwasm_libc;
 
+#[allow(unused)]
 #[macro_use]
-extern crate cfg_if;
-
-cfg_if! {
-	if #[cfg(all(feature="panic_with_msg", not(feature="std")))] {
-		#[macro_use]
-		extern crate alloc;
-		pub use alloc::{vec, format};
-	} else {
-		extern crate alloc;
-		pub use alloc::{vec, format};
-	}
-}
+extern crate alloc;
+pub use alloc::{vec, format};
 
 extern crate byteorder;
 
