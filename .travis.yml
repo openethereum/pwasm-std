@@ -10,6 +10,7 @@ script:
 - cargo check --target wasm32-unknown-unknown --verbose --features strict,panic_with_msg
 - cargo check --verbose --features strict,std,panic_with_msg
 - cd demo && ./build.sh
+- cd ..
 after_success: |
   [ $TRAVIS_BRANCH = master ] &&
   [ $TRAVIS_PULL_REQUEST = false ] &&
