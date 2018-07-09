@@ -1,6 +1,6 @@
 [package]
 name = "pwasm-std"
-version = "0.9.1"
+version = "0.9.2"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
