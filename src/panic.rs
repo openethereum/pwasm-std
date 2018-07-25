@@ -97,6 +97,6 @@ extern "C" fn eh_personality() {}
 /// Overrides the default oom
 #[lang = "oom"]
 #[no_mangle]
-pub extern fn oom() -> ! {
+pub extern fn oom(_: ::core::alloc::Layout) -> ! {
 	unsafe { ::core::intrinsics::abort() }
 }
