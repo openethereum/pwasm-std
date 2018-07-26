@@ -15,7 +15,7 @@ Parity WASM contracts standard library for Rust
 Just add a dependency
 ```toml
 [dependencies]
-pwasm-std = "0.9"
+pwasm-std = "0.10"
 ```
 
 The crate is supposed to be used on nightly Rust only, until the custom allocator api stablizes in Rust.
