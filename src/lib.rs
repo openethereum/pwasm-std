@@ -27,7 +27,9 @@ pub use alloc::{vec, format};
 
 extern crate byteorder;
 
-pub extern crate parity_hash;
+#[macro_use]
+extern crate fixed_hash;
+
 extern crate tiny_keccak;
 
 use byteorder::{LittleEndian, ByteOrder};
@@ -36,7 +38,8 @@ pub use alloc::boxed::Box;
 pub use alloc::string::String;
 pub use alloc::str;
 pub use alloc::vec::Vec;
-pub use parity_hash as hash;
+
+pub mod types;
 
 // Safe wrapper around debug logging
 pub mod logger;

@@ -13,20 +13,14 @@ categories = ["no-std", "embedded"]
 exclude = [ "demo/*" ]
 
 [dependencies]
+fixed-hash = { version = "0.2", default-features = false }
+byteorder = { version = "1", default-features = false }
 pwasm-alloc = { path = "alloc", version = "0.4" }
 pwasm-libc = { path = "libc", version = "0.2" }
 tiny-keccak = "1"
 
-[dependencies.byteorder]
-version = "1"
-default-features = false
-
-[dependencies.parity-hash]
-version = "1"
-default-features = false
-
 [features]
 default = []
-std = ["parity-hash/std"]
+std = ["fixed-hash/std"]
 strict = ["pwasm-libc/strict", "pwasm-alloc/strict"]
 panic_with_msg = []
