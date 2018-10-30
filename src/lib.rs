@@ -6,7 +6,6 @@
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
-#![feature(use_extern_macros)]
 #![feature(core_intrinsics)]
 #![feature(panic_implementation)]
 #![feature(panic_info_message)]
