@@ -14,13 +14,15 @@ exclude = [ "demo/*" ]
 
 [dependencies]
 fixed-hash = { version = "0.3.0-beta.0", default-features = false }
+uint = { version = "0.4", default-features = false }
 byteorder = { version = "1", default-features = false }
 pwasm-alloc = { path = "alloc", version = "0.4" }
 pwasm-libc = { path = "libc", version = "0.2" }
 tiny-keccak = "1"
+static_assertions = "0.2"
 
 [features]
 default = ["std"]
-std = ["fixed-hash/std", "byteorder/std"]
+std = ["fixed-hash/std", "uint/std", "byteorder/std"]
 strict = ["pwasm-libc/strict", "pwasm-alloc/strict"]
 panic_with_msg = []
