@@ -24,8 +24,8 @@ where
 	T: AsRef<[u8]>
 {
 	let mut keccak = Keccak::new_keccak256();
-	let mut res = H256::new();
+	let mut res = H256::zero();
 	keccak.update(input.as_ref());
-	keccak.finalize(&mut res);
+	keccak.finalize(res.as_bytes_mut());
 	res
 }
