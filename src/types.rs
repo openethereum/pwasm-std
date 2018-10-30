@@ -18,6 +18,9 @@ construct_fixed_hash!{
 	pub struct H256(32);
 }
 
+// Auto-impl `From` conversions between `H256` and `H160`.
+impl_fixed_hash_conversions!(H256, H160);
+
 /// Represents an address in ethereum context.
 /// 
 /// # Note
