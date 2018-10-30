@@ -20,7 +20,7 @@ pwasm-libc = { path = "libc", version = "0.2" }
 tiny-keccak = "1"
 
 [features]
-default = []
-std = ["fixed-hash/std"]
+default = ["std"]
+std = ["fixed-hash/std", "byteorder/std"]
 strict = ["pwasm-libc/strict", "pwasm-alloc/strict"]
 panic_with_msg = []
