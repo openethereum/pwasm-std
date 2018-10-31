@@ -1,16 +1,16 @@
 //! Standard library for parity wasm programs
 
-#![cfg_attr(not(feature="std"), no_std)]
-#![warn(missing_docs)]
+#![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
 #![feature(core_intrinsics)]
-#![feature(panic_implementation)]
 #![feature(panic_info_message)]
 
-#[cfg(feature="std")]
+#![warn(missing_docs)]
+
+#[cfg(feature = "std")]
 extern crate core;
 
 #[cfg(not(feature = "std"))]
