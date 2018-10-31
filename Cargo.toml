@@ -19,7 +19,6 @@ byteorder = { version = "1", default-features = false }
 pwasm-alloc = { path = "alloc", version = "0.4" }
 pwasm-libc = { path = "libc", version = "0.2" }
 tiny-keccak = "1"
-static_assertions = "0.2"
 
 [features]
 std = ["fixed-hash/std", "uint/std", "byteorder/std"]
