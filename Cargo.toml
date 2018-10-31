@@ -22,7 +22,6 @@ tiny-keccak = "1"
 static_assertions = "0.2"
 
 [features]
-default = ["std"]
 std = ["fixed-hash/std", "uint/std", "byteorder/std"]
 strict = ["pwasm-libc/strict", "pwasm-alloc/strict"]
 panic_with_msg = []
