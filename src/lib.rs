@@ -13,10 +13,10 @@
 #[cfg(feature="std")]
 extern crate core;
 
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 extern crate pwasm_alloc;
 
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 extern crate pwasm_libc;
 
 #[macro_use]
@@ -54,11 +54,11 @@ mod crypto;
 mod panic;
 
 #[no_mangle]
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 pub use panic::panic_fmt;
 
 #[no_mangle]
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 pub use panic::oom;
 
 pub use crypto::keccak;
