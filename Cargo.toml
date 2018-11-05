@@ -24,4 +24,5 @@ tiny-keccak = "1"
 default = ["uint/common"]
 std = ["fixed-hash/std", "uint/std", "byteorder/std"]
 strict = ["pwasm-libc/strict", "pwasm-alloc/strict"]
+test = ["std", "strict"]
 panic_with_msg = []

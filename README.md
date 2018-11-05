@@ -18,6 +18,12 @@ Just add a dependency
 pwasm-std = "0.10"
 ```
 
+Test `pwasm-std` with
+
+```
+cargo test --features=test
+```
+
 The crate is supposed to be used on nightly Rust only, until the custom allocator api stablizes in Rust.
 
 ## no_std
