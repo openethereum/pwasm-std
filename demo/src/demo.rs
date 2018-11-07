@@ -7,5 +7,5 @@ pub fn call() {
 	pwasm_std::logger::debug("Returing hash of 'something'");
 	let hash = pwasm_std::keccak("something");
 
-	pwasm_std::logger::debug(&format!("{:?}", hash.as_ref()));
+	pwasm_std::logger::debug(&format!("{:?}", hash.as_bytes()));
 }

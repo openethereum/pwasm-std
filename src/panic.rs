@@ -7,19 +7,19 @@ extern "C" {
 /// Overrides the default panic_fmt
 #[cfg(not(feature = "panic_with_msg"))]
 #[no_mangle]
-#[panic_implementation]
-pub fn panic_fmt(_info: &::core::panic::PanicInfo) -> ! {
+#[panic_handler]
+pub fn panic_fmt(_info: &crate::core::panic::PanicInfo) -> ! {
 	unsafe {
-		panic(::core::ptr::null(), 0u32);
+		panic(crate::core::ptr::null(), 0u32);
 	}
 }
 
 /// Overrides the default panic_fmt
 #[cfg(feature = "panic_with_msg")]
 #[no_mangle]
-#[panic_implementation]
-pub fn panic_fmt(info: &::core::panic::PanicInfo) -> ! {
-	use Vec;
+#[panic_handler]
+pub fn panic_fmt(info: &crate::core::panic::PanicInfo) -> ! {
+	use crate::Vec;
 	use byteorder::{LittleEndian, ByteOrder};
 
 	struct Sink {
@@ -57,7 +57,7 @@ pub fn panic_fmt(info: &::core::panic::PanicInfo) -> ! {
 		}
 	}
 
-	impl ::core::ops::Deref for Sink {
+	impl crate::core::ops::Deref for Sink {
 		type Target = [u8];
 		fn deref(&self) -> &[u8] {
 			&self.buf
@@ -97,6 +97,6 @@ extern "C" fn eh_personality() {}
 /// Overrides the default oom
 #[lang = "oom"]
 #[no_mangle]
-pub extern fn oom(_: ::core::alloc::Layout) -> ! {
-	unsafe { ::core::intrinsics::abort() }
+pub extern fn oom(_: crate::core::alloc::Layout) -> ! {
+	unsafe { crate::core::intrinsics::abort() }
 }

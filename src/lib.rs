@@ -1,23 +1,22 @@
 //! Standard library for parity wasm programs
 
-#![cfg_attr(not(feature="std"), no_std)]
-#![warn(missing_docs)]
+#![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
 #![feature(alloc)]
-#![feature(use_extern_macros)]
 #![feature(core_intrinsics)]
-#![feature(panic_implementation)]
 #![feature(panic_info_message)]
 
-#[cfg(feature="std")]
+#![warn(missing_docs)]
+
+#[cfg(feature = "std")]
 extern crate core;
 
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 extern crate pwasm_alloc;
 
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 extern crate pwasm_libc;
 
 #[allow(unused)]
@@ -27,7 +26,11 @@ pub use alloc::{vec, format};
 
 extern crate byteorder;
 
-pub extern crate parity_hash;
+#[macro_use]
+extern crate fixed_hash;
+
+extern crate uint;
+
 extern crate tiny_keccak;
 
 use byteorder::{LittleEndian, ByteOrder};
@@ -36,7 +39,8 @@ pub use alloc::boxed::Box;
 pub use alloc::string::String;
 pub use alloc::str;
 pub use alloc::vec::Vec;
-pub use parity_hash as hash;
+
+pub mod types;
 
 // Safe wrapper around debug logging
 pub mod logger;
@@ -47,11 +51,11 @@ mod crypto;
 mod panic;
 
 #[no_mangle]
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 pub use panic::panic_fmt;
 
 #[no_mangle]
-#[cfg(not(feature="std"))]
+#[cfg(not(feature = "std"))]
 pub use panic::oom;
 
 pub use crypto::keccak;
