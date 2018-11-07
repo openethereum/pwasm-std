@@ -6,8 +6,6 @@ Parity WASM contracts standard library for Rust
 
 [Documentation](https://paritytech.github.io/pwasm-std/pwasm_std/)
 
-[Parity Wasm Tutorial](https://github.com/paritytech/pwasm-tutorial) - a full fledged tutorial on how to write contracts in Webassembly for Kovan and other Wasm-enabled networks.
-
 `pwasm-std` is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
 
 ## Use
@@ -15,7 +13,7 @@ Parity WASM contracts standard library for Rust
 Just add a dependency
 ```toml
 [dependencies]
-pwasm-std = "0.10"
+pwasm-std = "0.11"
 ```
 
 Test `pwasm-std` with
