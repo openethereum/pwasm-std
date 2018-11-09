@@ -13,7 +13,7 @@ Parity WASM contracts standard library for Rust
 Just add a dependency
 ```toml
 [dependencies]
-pwasm-std = "0.11"
+pwasm-std = "0.12"
 ```
 
 Test `pwasm-std` with
