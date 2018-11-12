@@ -1,6 +1,6 @@
 [package]
 name = "pwasm-std"
-version = "0.12.0"
+version = "0.13.0"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
@@ -13,8 +13,8 @@ categories = ["no-std", "embedded"]
 exclude = [ "demo/*" ]
 
 [dependencies]
-fixed-hash = { version = "0.3.0-beta", default-features = false }
-uint = { version = "0.5.0-beta", default-features = false }
+fixed-hash = { version = "0.3.0", default-features = false }
+uint = { version = "0.5.0", default-features = false }
 byteorder = { version = "1", default-features = false }
 pwasm-alloc = { path = "alloc", version = "0.4" }
 pwasm-libc = { path = "libc", version = "0.2" }
