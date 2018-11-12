@@ -16,13 +16,13 @@ exclude = [ "demo/*" ]
 fixed-hash = { version = "0.3.0-beta", default-features = false }
 uint = { version = "0.5.0-beta", default-features = false }
 byteorder = { version = "1", default-features = false }
-pwasm-alloc = { path = "alloc", version = "0.4" }
-pwasm-libc = { path = "libc", version = "0.2" }
+owasm-alloc = { path = "alloc", version = "0.4" }
+owasm-libc = { path = "libc", version = "0.2" }
 tiny-keccak = "1"
 
 [features]
 default = ["uint/common"]
 std = ["fixed-hash/std", "uint/std", "byteorder/std"]
-strict = ["pwasm-libc/strict", "pwasm-alloc/strict"]
 test = ["std", "strict"]
+strict = ["owasm-libc/strict", "owasm-alloc/strict"]
 panic_with_msg = []

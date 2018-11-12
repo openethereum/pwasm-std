@@ -4,7 +4,7 @@ version = "0.0.0"
 authors = ["NikVolf <nikvolf@gmail.com>"]
 
 [dependencies]
-pwasm-std = { path = "../" }
+owasm-std = { path = "../" }
 
 [lib]
 path = "src/demo.rs"

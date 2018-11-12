@@ -13,11 +13,11 @@
 #[cfg(feature = "std")]
 extern crate core;
 
-#[cfg(not(feature = "std"))]
-extern crate pwasm_alloc;
+#[cfg(not(feature="std"))]
+extern crate owasm_alloc;
 
-#[cfg(not(feature = "std"))]
-extern crate pwasm_libc;
+#[cfg(not(feature="std"))]
+extern crate owasm_libc;
 
 #[allow(unused)]
 #[macro_use]
