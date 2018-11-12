@@ -4,7 +4,7 @@ Oasis WASM contracts standard library for Rust
 
 [Documentation](https://docs.rs/crate/owasm-std/)
 
-`pwasm-std` is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
+`owasm-std` is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
 
 This crate is forked from [paritytech/pwasm-std](https://github.com/paritytech/pwasm-std).
 
