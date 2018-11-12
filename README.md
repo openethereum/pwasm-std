@@ -1,4 +1,4 @@
-# pwasm-std
+# owasm-std
 
 Oasis WASM contracts standard library for Rust
 
