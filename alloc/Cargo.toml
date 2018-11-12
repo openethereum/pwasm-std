@@ -1,11 +1,11 @@
 [package]
-name = "pwasm-alloc"
+name = "owasm-alloc"
 version = "0.4.0"
 authors = ["Nikolay Volf <nikvolf@gmail.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/paritytech/pwasm-std"
-homepage = "https://github.com/paritytech/pwasm-std"
+repository = "https://github.com/oasislabs/owasm-std"
+homepage = "https://github.com/oasislabs/owasm-std"
 documentation = "https://paritytech.github.io/pwasm-std/pwasm_std/"
 description = "Parity WebAssembly standard library internal allocator"
 keywords = ["wasm", "parity", "webassembly", "blockchain"]

@@ -1,4 +1,4 @@
-//! Logger extensions for pwasm-std
+//! Logger extensions for owasm-std
 mod external {
 	extern {
 		pub fn debug(str_ptr: *const u8, str_len: u32);
