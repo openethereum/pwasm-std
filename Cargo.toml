@@ -1,14 +1,14 @@
 [package]
 name = "owasm-std"
 version = "0.12.0"
-authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>"]
+authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>", "Oasis Labs <info@oasislabs.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/oasislabs/owasm-std"
 homepage = "https://github.com/oasislabs/owasm-std"
-documentation = "https://paritytech.github.io/pwasm-std/pwasm_std/"
-description = "Parity WebAssembly standard library for contract development"
-keywords = ["wasm", "parity", "webassembly", "blockchain"]
+documentation = "https://docs.rs/crate/owasm-std/"
+description = "Rust WebAssembly standard library for contract development"
+keywords = ["wasm", "oasis", "oasislabs", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
 exclude = [ "demo/*" ]
 
