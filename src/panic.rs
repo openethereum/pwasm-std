@@ -8,7 +8,7 @@ extern "C" {
 #[cfg(not(feature = "panic_with_msg"))]
 #[no_mangle]
 #[panic_handler]
-pub fn panic_fmt(_info: &crate::core::panic::PanicInfo) -> ! {
+pub fn panic_fmt(_info: &::core::panic::PanicInfo) -> ! {
 	unsafe {
 		panic(crate::core::ptr::null(), 0u32);
 	}
@@ -18,8 +18,8 @@ pub fn panic_fmt(_info: &crate::core::panic::PanicInfo) -> ! {
 #[cfg(feature = "panic_with_msg")]
 #[no_mangle]
 #[panic_handler]
-pub fn panic_fmt(info: &crate::core::panic::PanicInfo) -> ! {
-	use crate::Vec;
+pub fn panic_fmt(info: &::core::panic::PanicInfo) -> ! {
+	use Vec;
 	use byteorder::{LittleEndian, ByteOrder};
 
 	struct Sink {
