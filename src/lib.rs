@@ -23,7 +23,7 @@ extern crate tiny_keccak;
 
 use byteorder::{LittleEndian, ByteOrder};
 
-pub mod types;
+pub use parity_hash as hash;
 
 // Safe wrapper around debug logging
 pub mod logger;
