@@ -1,6 +1,6 @@
 [package]
 name = "owasm-std"
-version = "0.12.0"
+version = "0.12.2"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>", "Oasis Labs <info@oasislabs.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
@@ -8,7 +8,7 @@ repository = "https://github.com/oasislabs/owasm-std"
 homepage = "https://github.com/oasislabs/owasm-std"
 documentation = "https://docs.rs/crate/owasm-std/"
 description = "Rust WebAssembly standard library for contract development"
-keywords = ["wasm", "oasis", "oasislabs", "parity", "webassembly", "blockchain"]
+keywords = ["wasm", "oasislabs", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
 exclude = [ "demo/*" ]
 
@@ -16,13 +16,10 @@ exclude = [ "demo/*" ]
 fixed-hash = { version = "0.3.0-beta", default-features = false }
 uint = { version = "0.5.0-beta", default-features = false }
 byteorder = { version = "1", default-features = false }
-owasm-alloc = { path = "alloc", version = "0.4" }
-owasm-libc = { path = "libc", version = "0.2" }
 tiny-keccak = "1"
 
 [features]
-default = ["uint/common"]
+default = ["uint/common", "std"]
 std = ["fixed-hash/std", "uint/std", "byteorder/std"]
-test = ["std", "strict"]
-strict = ["owasm-libc/strict", "owasm-alloc/strict"]
+test = ["std"]
 panic_with_msg = []

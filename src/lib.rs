@@ -4,7 +4,6 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
-#![feature(alloc)]
 #![feature(core_intrinsics)]
 #![feature(panic_info_message)]
 
@@ -12,17 +11,6 @@
 
 #[cfg(feature = "std")]
 extern crate core;
-
-#[cfg(not(feature="std"))]
-extern crate owasm_alloc;
-
-#[cfg(not(feature="std"))]
-extern crate owasm_libc;
-
-#[allow(unused)]
-#[macro_use]
-extern crate alloc;
-pub use alloc::{vec, format};
 
 extern crate byteorder;
 
@@ -34,11 +22,6 @@ extern crate uint;
 extern crate tiny_keccak;
 
 use byteorder::{LittleEndian, ByteOrder};
-
-pub use alloc::boxed::Box;
-pub use alloc::string::String;
-pub use alloc::str;
-pub use alloc::vec::Vec;
 
 pub mod types;
 
