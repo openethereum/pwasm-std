@@ -4,6 +4,7 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
+#![feature(alloc)]
 #![feature(core_intrinsics)]
 #![feature(panic_info_message)]
 
@@ -23,8 +24,6 @@ pub extern crate parity_hash;
 extern crate tiny_keccak;
 
 use byteorder::{LittleEndian, ByteOrder};
-
-pub use parity_hash as hash;
 
 pub use alloc::boxed::Box;
 pub use alloc::string::String;
