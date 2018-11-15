@@ -2,7 +2,7 @@
 
 Oasis WASM contracts standard library for Rust
 
-[Documentation](https://docs.rs/crate/owasm_std/)
+[Documentation](https://docs.rs/crate/owasm-std/)
 
 `owasm-std` is a limited subset of the Rust standard library, along with a custom allocator which delegates the allocation to the runtime-defined externs.
 
