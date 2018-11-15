@@ -1,6 +1,6 @@
 [package]
 name = "owasm-std"
-version = "0.12.2"
+version = "0.13.0"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>", "Oasis Labs <info@oasislabs.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
@@ -13,13 +13,12 @@ categories = ["no-std", "embedded"]
 exclude = [ "demo/*" ]
 
 [dependencies]
-fixed-hash = { version = "0.3.0-beta", default-features = false }
-uint = { version = "0.5.0-beta", default-features = false }
 byteorder = { version = "1", default-features = false }
+parity-hash = { version = "1", default-features = false }
 tiny-keccak = "1"
 
 [features]
-default = ["uint/common", "std"]
-std = ["fixed-hash/std", "uint/std", "byteorder/std"]
+default = []
+std = ["parity-hash/std"]
 test = ["std"]
 panic_with_msg = []

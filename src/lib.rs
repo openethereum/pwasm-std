@@ -4,6 +4,7 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(lang_items)]
 #![feature(link_args)]
+#![feature(alloc)]
 #![feature(core_intrinsics)]
 #![feature(panic_info_message)]
 
@@ -14,16 +15,21 @@ extern crate core;
 
 extern crate byteorder;
 
+#[allow(unused)]
 #[macro_use]
-extern crate fixed_hash;
+extern crate alloc;
+pub use alloc::{vec, format};
 
-extern crate uint;
-
+pub extern crate parity_hash;
 extern crate tiny_keccak;
 
 use byteorder::{LittleEndian, ByteOrder};
 
-pub mod types;
+pub use alloc::boxed::Box;
+pub use alloc::string::String;
+pub use alloc::str;
+pub use alloc::vec::Vec;
+pub use parity_hash as hash;
 
 // Safe wrapper around debug logging
 pub mod logger;
