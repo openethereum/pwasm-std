@@ -1,6 +1,6 @@
 [package]
 name = "owasm-std"
-version = "0.12.2"
+version = "0.13.0"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Shulepov <s.pepyakin@gmail.com>", "Oasis Labs <info@oasislabs.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
