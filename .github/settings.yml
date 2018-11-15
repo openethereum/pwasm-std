@@ -1,0 +1,95 @@
+repository:
+  # See https://developer.github.com/v3/repos/#edit for all available settings.
+  private: true
+  default_branch: master
+  has_issues: true
+  has_projects: false
+  has_wiki: false
+  has_downloads: true
+  allow_squash_merge: true
+  allow_merge_commit: true
+  allow_rebase_merge: true
+
+# Labels: define labels for Issues and Pull Requests
+labels:
+  - name: 't:epic'
+    color: '000066'
+    description: 'Tag: epic issue'
+  - name: 't:unplanned'
+    color: 'ff00ff'
+    description: 'Tag: issue added to sprint after it started'
+  - name: 't:question'
+    color: d876e3
+    description: 'Tag: question'
+  - name: 't:bug'
+    color: ff0000
+    description: 'Tag: bug report'
+  - name: 'p:0'
+    color: 'd73a4a'
+    description: 'Priority: address immediately'
+  - name: 'p:1'
+    color: 'fbca04'
+    description: 'Priority: core feature'
+  - name: 'p:2'
+    color: '1d76db'
+    description: 'Priority: desired feature'
+  - name: 'p:3'
+    color: '5319e7'
+    description: 'Priority: nice to have'
+  - name: 's:good first issue'
+    color: '7057ff'
+    description: 'Status: good for newcomers'
+  - name: 's:help wanted'
+    color: '008672'
+    description: 'Status: Extra attention is needed'
+  - name: 's:blocked'
+    color: 'e99695'
+    description: 'Status: blocked on other work'
+  - name: 's:in progress'
+    color: 'c5def5'
+    description: 'Status: work is happening'
+  - name: 's:needs review'
+    color: '0e8a16'
+    description: 'Status: needs review'
+  - name: 's:ready'
+    color: '0e8a17'
+    description: 'Status: ready to work/merge'
+  - name: 's:wontfix'
+    color: 'ffffff'
+    description: 'Status: this will not be worked on'
+  - name: 's:duplicate'
+    color: 'cfd3d7'
+    description: 'this issue or PR already exists'
+
+# NOTE: The APIs needed for teams are not supported yet by GitHub Apps
+# https://developer.github.com/v3/apps/available-endpoints/
+teams:
+  - name: dev
+    permission: push
+
+branches:
+  - name: master
+    protection:
+      # Required. Require at least one approving review on a pull request, before merging
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        # Dismiss approved reviews automatically when a new commit is pushed.
+        dismiss_stale_reviews: false
+        # Blocks merge until code owners have reviewed.
+        require_code_owner_reviews: true
+        # Specify which users and teams can dismiss pull request reviews. Pass an empty dismissal_restrictions object to disable.
+        dismissal_restrictions: {}
+          #users: []
+          #teams: []
+      # Required. Require status checks to pass before merging. Set to null to disable
+      required_status_checks:
+        # Required. Require branches to be up to date before merging.
+        strict: false
+        # Required. The list of status checks to require in order to merge into this branch
+        contexts: []
+      # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
+      enforce_admins: true
+      # Required. Restrict who can push to this branch. Team and user restrictions are only available for organization-owned repositories. Set to null to disable.
+      restrictions: null
+      #  users: []
+      #  teams: []
