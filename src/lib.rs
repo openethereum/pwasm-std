@@ -16,6 +16,9 @@ extern crate core;
 #[cfg(not(feature = "std"))]
 extern crate pwasm_alloc;
 
+#[cfg(not(feature = "std"))]
+extern crate pwasm_libc;
+
 #[allow(unused)]
 #[macro_use]
 extern crate alloc;
