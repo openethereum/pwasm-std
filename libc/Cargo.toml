@@ -12,7 +12,6 @@ keywords = ["wasm", "parity", "webassembly", "blockchain"]
 categories = ["no-std", "embedded"]
 
 [dependencies]
-rlibc = "1.0"
 cfg-if = "0.1"
 
 [features]

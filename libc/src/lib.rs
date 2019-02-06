@@ -42,7 +42,5 @@ cfg_if! {
 		pub unsafe extern "C" fn memset(dest: *mut u8, c: i32, n: usize) -> *mut u8 {
 			ext_memset(dest, c, n)
 		}
-	} else {
-		extern crate rlibc;
 	}
 }
