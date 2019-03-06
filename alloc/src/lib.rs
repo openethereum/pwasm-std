@@ -2,7 +2,6 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![no_std]
 #![crate_type = "rlib"]
-#![feature(alloc)]
 #![feature(allocator_api)]
 
 //! Custom allocator crate for wasm
