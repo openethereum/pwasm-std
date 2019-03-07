@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["H160","A 160 bits (20 bytes) hash type."],["H256","A 256-bits (32 bytes) hash type."],["U256","Little-endian large integer type"]],"type":[["Address","Represents an address in ethereum context."]]});
